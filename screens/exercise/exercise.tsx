@@ -1,16 +1,17 @@
 import { View } from 'react-native';
 import { useState, useEffect } from 'react';
 
-import { round } from '../utils/utils';
-import ListItem from '../components/listItem';
-import Track from '../pages/track';
-import WeightList from '../pages/weightList';
-import RepList from '../pages/repList';
-import { loadExerciseHistory, loadExerciseName, loadExerciseType } from '../storage/exercises';
-import { loadBodyWeight } from '../storage/profile';
-import { screenProps, set, globalStyle } from '../utils/types';
-import { getStyle } from '../utils/styles';
-import Button from '../components/button';
+import { round } from './_helpers';
+import ListItem from '../../components/listItem';
+import Track from './pages/track';
+import WeightList from './pages/weightList';
+import RepList from './pages/repList';
+import { loadExerciseHistory, loadExerciseName, loadExerciseType } from '../../storage/exercises';
+import { loadBodyWeight } from '../../storage/profile';
+import { set } from '../../utils/_types';
+import { screenProps } from '../_types';
+import Button from '../../components/button';
+import { getStyle, globalStyle } from '../../utils/styles';
 
 const Exercise: React.FC<screenProps> = (props: screenProps) => {
     const [tab, setTab] = useState<number>(0);

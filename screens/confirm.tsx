@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { View, Text } from 'react-native';
 
-import { screenProps } from '../utils/types';
 import Button from '../components/button';
 import { getStyle } from '../utils/styles';
+import { screenProps } from './_types';
 
 const Confirm: React.FC<screenProps> = (props: screenProps) => {
     const [name, setName] = useState('');

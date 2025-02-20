@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { View, TextInput, Text } from 'react-native';
 
-import { screenProps } from '../utils/types';
 import Button from '../components/button';
 import { getStyle, DEFAULT_PADDING } from '../utils/styles';
 import { deleteStack, loadStackData, loadStackName, saveStackData, saveStackName } from '../storage/stacks';
+import { screenProps } from './_types';
 
 const Stack: React.FC<screenProps> = (props: screenProps) => {
     const [name, setName] = useState<string>('');

@@ -2,7 +2,15 @@ import { Pressable } from 'react-native';
 
 import { getStyle } from '../utils/styles';
 import Item from './item';
-import { globalStyle, listItemProps } from '../utils/types';
+import { globalStyle } from '../utils/styles';
+
+type listItemProps = {
+    text?: string;
+    getText?: () => Promise<string>;
+    onPress?: () => void;
+    selected?: boolean;
+    style?: {};
+}
 
 const ListItem: React.FC<listItemProps> = (props: listItemProps) => {
     let style: globalStyle = getStyle();

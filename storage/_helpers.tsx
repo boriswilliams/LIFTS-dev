@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { hashSet } from '../utils/types';
+import { hashSet } from '../utils/_types';
 import { hashSetAdd, hashSetRemove } from '../utils/utils';
 
 // AsyncStorage.clear();

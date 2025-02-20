@@ -1,6 +1,6 @@
 import { createContext, useState, ReactNode, useEffect } from 'react';
 
-import { contextDetails, contextAccess } from '../utils/types';
+import { contextDetails, contextAccess } from './_types';
 import { loadTheme } from '../storage/profile';
 
 const value: contextDetails = {

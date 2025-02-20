@@ -1,5 +1,5 @@
 import { load, save, addToHashSet, del, removeFromHashSet } from './_helpers';
-import { hashSet } from '../utils/types';
+import { hashSet } from '../utils/_types';
 
 const stacks = (): string => 'stacks';
 const loadStacks = async (): Promise<hashSet> => await load(stacks(), {});

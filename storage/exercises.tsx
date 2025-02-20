@@ -1,5 +1,5 @@
 import { load, save, del, addToHashSet, addToList } from './_helpers';
-import { hashSet, set } from '../utils/types';
+import { hashSet, set } from '../utils/_types';
 
 const exercises = (): string => 'exercises';
 const loadExercises = async (): Promise<hashSet> => await load(exercises(), {});

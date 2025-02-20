@@ -4,9 +4,9 @@ import { loadDayName } from '../storage/days';
 import { loadExerciseName } from '../storage/exercises';
 import { getStyle } from '../utils/styles';
 import ListItem from '../components/listItem';
-import { screenProps } from '../utils/types';
 import Button from '../components/button';
 import List from '../components/list';
+import { screenProps } from './_types';
 
 const ExerciseList: React.FC<screenProps> = (props: screenProps) => {
     const [exerciseList, setExerciseList] = useState<number[]>([]);

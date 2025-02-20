@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { View, TextInput, Text } from 'react-native';
 
-import { screenProps } from '../utils/types';
 import { getStyle } from '../utils/styles';
 import { exportData, importData } from '../storage/_helpers';
 import Button from '../components/button';
+import { screenProps } from './_types';
 
 const JSON: React.FC<screenProps> = (props: screenProps) => {
     const [data, setData] = useState<string>('');

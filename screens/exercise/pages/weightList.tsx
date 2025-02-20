@@ -1,11 +1,17 @@
 import { Pressable } from 'react-native';
 import { useEffect, useState } from 'react';
 
-import { loadExerciseHistory, loadExerciseDelta } from '../storage/exercises';
-import { calcWeight, roundWeightDown, MAX_REPS, lowerWeight, calcReps, displayWeight } from '../utils/utils';
-import Row from '../components/row';
-import { pageProps, weightListRow } from '../utils/types';
-import List from '../components/list';
+import Row from '../../../components/row';
+import List from '../../../components/list';
+import { calcReps, calcWeight, displayWeight, lowerWeight, MAX_REPS, roundWeightDown } from '../_helpers';
+import { pageProps } from '../_types';
+import { loadExerciseDelta, loadExerciseHistory } from '../../../storage/exercises';
+
+type weightListRow = {
+    weight: number|string,
+    reps: number,
+    rec: number;
+}
 
 let each_limit = 9;
 let total_limit = 15;

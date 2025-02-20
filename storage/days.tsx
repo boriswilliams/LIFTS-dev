@@ -1,5 +1,5 @@
 import { load, save, addToHashSet } from './_helpers';
-import { hashSet } from '../utils/types';
+import { hashSet } from '../utils/_types';
 
 const days = (): string => 'days';
 const loadDays = async (): Promise<hashSet> => await load(days(), {});

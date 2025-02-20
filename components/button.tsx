@@ -2,7 +2,13 @@ import { TouchableOpacity, Text } from 'react-native';
 
 import styles from '../utils/styles';
 import { getStyle, TEXT_SIZE } from '../utils/styles';
-import { buttonProps, globalStyle } from '../utils/types';
+import { globalStyle } from '../utils/styles';
+
+type buttonProps = {
+    onPress: () => void;
+    title: string;
+    bold?: boolean;
+}
 
 const Button: React.FC<buttonProps> = (props: buttonProps) => {
     let style: globalStyle = getStyle();

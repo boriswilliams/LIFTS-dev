@@ -1,8 +1,15 @@
 import { Text, View } from 'react-native';
 
-import { navigationBarProps } from '../utils/types';
 import { getStyle, DEFAULT_PADDING } from '../utils/styles';
 import Button from './button';
+
+type navigationBarProps = {
+    title: string;
+    page: string[];
+    headerRight: React.JSX.Element | undefined;
+    goBack: (x?: number) => void;
+    backDisabled: boolean;
+}
 
 const NavigationBar: React.FC<navigationBarProps> = (props: navigationBarProps) => {
     return (

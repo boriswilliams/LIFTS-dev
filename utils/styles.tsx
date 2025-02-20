@@ -1,8 +1,17 @@
 import { useContext } from 'react';
 import { StyleSheet } from 'react-native';
 
-import { globalStyle } from './types';
 import { globalContext } from '../app/context';
+
+type globalStyle = {
+    backgroundColor: string;
+    backgroundDark: string;
+    color: string;
+    accent: string;
+    borderTopLeftRadius?: number;
+    borderTopRightRadius?: number;
+    fontSize?: number;
+}
 
 const TEXT_SIZE = 20;
 
@@ -69,4 +78,4 @@ function getStyle(): globalStyle {
 
 export default styles;
 
-export { getStyle, STYLES, DEFAULT_PADDING, APP_NAME, TEXT_SIZE };
+export { getStyle, STYLES, DEFAULT_PADDING, APP_NAME, TEXT_SIZE, globalStyle };

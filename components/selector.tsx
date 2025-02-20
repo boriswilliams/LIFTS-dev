@@ -1,9 +1,14 @@
 import { Text, View, Pressable } from 'react-native';
 import Checkbox from 'expo-checkbox';
 
-import { selectorProps } from '../utils/types';
 import { getStyle, DEFAULT_PADDING } from '../utils/styles';
 import { titleCase } from '../utils/utils';
+
+type selectorProps = {
+    selected: number;
+    setSelected: (x: number) => void;
+    data: string[];
+}
 
 const Selector: React.FC<selectorProps> = (props: selectorProps) => {
     return (

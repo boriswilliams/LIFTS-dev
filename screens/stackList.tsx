@@ -2,9 +2,10 @@ import { useEffect, useState } from 'react';
 
 import { getStyle } from '../utils/styles';
 import ListItem from '../components/listItem';
-import { hashSet, screenProps } from '../utils/types';
+import { hashSet } from '../utils/_types';
 import List from '../components/list';
 import { loadStacks, loadStackName, saveNewStack } from '../storage/stacks';
+import { screenProps } from './_types';
 
 const StackList: React.FC<screenProps> = (props: screenProps) => {
     const [stackList, setStackList] = useState<number[]>([]);

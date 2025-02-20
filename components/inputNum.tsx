@@ -1,9 +1,18 @@
 import { Text, View, TextInput } from 'react-native';
 
 import { round, isNumber } from '../utils/utils';
-import { inputNumProps } from '../utils/types';
 import { getStyle } from '../utils/styles';
 import Button from './button';
+
+type inputNumProps = {
+    value: string;
+    changeValue: (x: string) => void;
+    title: string;
+    min?: number;
+    max?: number;
+    delta: number;
+    decimals: boolean;
+}
 
 const InputNum: React.FC<inputNumProps> = (props: inputNumProps) => {
     return (

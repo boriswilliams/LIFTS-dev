@@ -2,13 +2,14 @@ import { useEffect, useState } from 'react';
 import { View, TextInput } from 'react-native';
 
 import { loadDayName, saveDayName, loadDayExercises } from '../storage/days';
-import { hashSet, screenProps } from '../utils/types';
+import { hashSet } from '../utils/_types';
 import { deleteDay, addDayExercise, deleteDayExercise } from '../storage/both';
 import ListItem from '../components/listItem';
 import { getStyle, DEFAULT_PADDING } from '../utils/styles';
 import { loadExerciseList, loadExerciseName } from '../storage/exercises';
 import Button from '../components/button';
 import List from '../components/list';
+import { screenProps } from './_types';
 
 const move = (index: number, start: number[], setStart: (x: number[]) => void, dest: number[], setDest: (x: number[]) => void) => {
     start = [...start]

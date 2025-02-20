@@ -1,11 +1,11 @@
 import { Pressable } from 'react-native';
 import { useEffect, useState } from 'react';
 
-import { loadExerciseHistory, loadExerciseDelta } from '../storage/exercises';
-import { calcWeight, roundWeightDown, MAX_REPS, displayWeight, round } from '../utils/utils';
-import Row from '../components/row';
-import { pageProps } from '../utils/types';
-import List from '../components/list';
+import Row from '../../../components/row';
+import List from '../../../components/list';
+import { pageProps } from '../_types';
+import { loadExerciseDelta, loadExerciseHistory } from '../../../storage/exercises';
+import { calcWeight, displayWeight, MAX_REPS, round, roundWeightDown } from '../_helpers';
 
 const RepList: React.FC<pageProps> = (props: pageProps) => {
     const [data, setData] = useState<string[][]>([]);

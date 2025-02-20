@@ -1,6 +1,10 @@
-import { Text, View } from 'react-native';
+import { TextStyle, Text, View } from 'react-native';
+import { globalStyle } from '../utils/styles';
 
-import { cellProps } from '../utils/types';
+type cellProps = {
+    style: (globalStyle | TextStyle)[];
+    text: string;
+}
 
 const Cell: React.FC<cellProps> = (props: cellProps) => {
     if  (props.text.match(/^[<>+-\.\d]*$/) == null) {

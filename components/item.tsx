@@ -3,7 +3,12 @@ import { useEffect, useState } from 'react';
 
 import { getStyle } from '../utils/styles';
 import styles from '../utils/styles';
-import { globalStyle, itemProps } from '../utils/types';
+
+type itemProps = {
+    text?: string;
+    getText?: () => Promise<string>;
+    style?: {};
+}
 
 const Item: React.FC<itemProps> = (props: itemProps) => {
     const [text, setText] = useState(props.text);

@@ -1,15 +1,17 @@
 import { View, Pressable } from 'react-native';
 import { useEffect, useState } from 'react';
 
-import { loadExerciseHistory, appendExerciseHistory, loadExerciseDelta, saveExerciseHistory } from '../storage/exercises';
-import { round } from '../utils/utils';
-import InputNum from '../components/inputNum';
-import Row from '../components/row';
-import { hashSet, pageProps, set } from '../utils/types';
-import { hashSetToggle } from '../utils/utils';
-import { getStyle } from '../utils/styles';
-import Button from '../components/button';
-import List from '../components/list';
+import Row from '../../../components/row';
+import List from '../../../components/list';
+import { pageProps } from '../_types';
+import { appendExerciseHistory, loadExerciseDelta, loadExerciseHistory, saveExerciseHistory } from '../../../storage/exercises';
+import { hashSet, set } from '../../../utils/_types';
+import { round } from '../_helpers';
+import { getStyle } from '../../../utils/styles';
+import InputNum from '../../../components/inputNum';
+import Button from '../../../components/button';
+import { hashSetToggle } from '../../../utils/utils';
+
 
 const Track: React.FC<pageProps> = (props: pageProps) => {
     const [data, setData] = useState<string[][]>([]);

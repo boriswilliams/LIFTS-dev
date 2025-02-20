@@ -3,12 +3,12 @@ import { View, TextInput } from 'react-native';
 
 import { loadExerciseType, loadExerciseName, loadExerciseMinRepRec, loadExerciseMaxRepRec, saveExerciseName, loadExerciseDelta, saveExerciseMinRepRec, saveExerciseMaxRepRec, saveExerciseType, saveExerciseDelta, TYPES } from '../storage/exercises';
 import { deleteExercise } from '../storage/both';
-import { MAX_REPS } from '../utils/utils';
 import Selector from '../components/selector';
 import InputNum from '../components/inputNum';
-import { screenProps } from '../utils/types';
 import Button from '../components/button';
 import { getStyle, DEFAULT_PADDING } from '../utils/styles';
+import { screenProps } from './_types';
+import { MAX_REPS } from './exercise/_helpers';
 
 const ExerciseSettings: React.FC<screenProps> = (props: screenProps) => {
     const [name, setName] = useState<string>('');

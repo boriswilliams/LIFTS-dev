@@ -1,12 +1,11 @@
-import { SafeAreaView, View, StatusBar, Text } from 'react-native';
+import { SafeAreaView, View, StatusBar } from 'react-native';
 import { useState } from 'react';
 
-import Exercise from '../screens/exercise';
+import Exercise from '../screens/exercise/exercise';
 import ExerciseList from '../screens/exerciseList';
 import DayList from '../screens/dayList';
 import ExerciseSettings from '../screens/exerciseSettings';
 import DaySettings from '../screens/daySettings';
-import { navigatorProps } from '../utils/types';
 import Confirm from '../screens/confirm';
 import Profile from '../screens/profile';
 import ContextProvider from './context';
@@ -15,6 +14,7 @@ import JSON from '../screens/json';
 import NavigationBar from '../components/navigationBar';
 import Stacks from '../screens/stackList';
 import Stack from '../screens/stack';
+import { navigatorProps } from './_types';
 
 const Navigator: React.FC = () => {
     const [title, setTitle] = useState(APP_NAME);
