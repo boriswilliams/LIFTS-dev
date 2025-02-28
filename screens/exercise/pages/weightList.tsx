@@ -98,7 +98,7 @@ const WeightList: React.FC<pageProps> = (props: pageProps) => {
             ListHeaderComponent={
                 <Row data={['Weight', 'Est. reps', 'Do reps']}/>
             }
-            renderItem={({index, item}: {index: number, item: weightListRow}) => {
+            renderItem={({index, item, style}) => {
                 let rowData: string[] = [String(item.weight), String(item.reps), String(item.rec)];
                 if (item.reps < 1) rowData[1] = '<1';
                 else if (item.reps <= MAX_REPS) rowData[1] = item.reps.toFixed(1);
@@ -107,10 +107,11 @@ const WeightList: React.FC<pageProps> = (props: pageProps) => {
                     <Pressable
                         key={index}
                     >
-                        <Row data={rowData}/>
+                        <Row data={rowData} style={style}/>
                     </Pressable>
                 )
             }}
+            alternate={true}
         />
     );
 }

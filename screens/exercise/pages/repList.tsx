@@ -37,15 +37,16 @@ const RepList: React.FC<pageProps> = (props: pageProps) => {
             ListHeaderComponent={
                 <Row data={['Reps', 'Weight', 'Est. weight', 'Do weight']}/>
             }
-            renderItem={({index, item}) => {
+            renderItem={({index, item, style}) => {
                 return (
                     <Pressable
                         key={index}
                     >
-                        <Row data={item}/>
+                        <Row data={item} style={style}/>
                     </Pressable>
                 )
             }}
+            alternate={true}
         />
     );
 }

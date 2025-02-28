@@ -78,33 +78,37 @@ const DaySettings: React.FC<screenProps> = (props: screenProps) => {
                     style={[getStyle(), {flex: 1},]}
                     data={included}
                     ListHeaderComponent={<ListItem text={'included'}/>}
-                    renderItem={({index, item}) => {
+                    renderItem={({index, item, style}) => {
                         return (
                             <ListItem
                                 getText={() => loadExerciseName(item)}
                                 onPress={() => {
                                     move(index, included, setIncluded, excluded, setExcluded);
                                 }}
+                                style={style}
                             />
                         )
                     }}
                     keyExtractor={(item) => String(item)}
+                    separator={true}
                 />
                 <List
                     style={[getStyle(), {flex: 1},]}
                     data={excluded}
                     ListHeaderComponent={<ListItem text={'excluded'}/>}
-                    renderItem={({index, item}) => {
+                    renderItem={({index, item, style}) => {
                         return (
                             <ListItem
                                 getText={() => loadExerciseName(item)}
                                 onPress={() => {
                                     move(index, excluded, setExcluded, included, setIncluded);
                                 }}
+                                style={style}
                             />
                         )
                     }}
                     keyExtractor={(item) => String(item)}
+                    separator={true}
                 />
             </View>
             <Button

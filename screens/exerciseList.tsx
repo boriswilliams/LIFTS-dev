@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { loadDayName } from '../storage/days';
 import { loadExerciseName } from '../storage/exercises';
-import { getStyle } from '../utils/styles';
+import { getStyle, globalStyle } from '../utils/styles';
 import ListItem from '../components/listItem';
 import Button from '../components/button';
 import List from '../components/list';
@@ -37,7 +37,7 @@ const ExerciseList: React.FC<screenProps> = (props: screenProps) => {
         <List
             style={[getStyle(), {flex: 1},]}
             data={exerciseList}
-            renderItem={({item}) => {
+            renderItem={({index, item, style}) => {
                 return (
                     <ListItem
                         getText={() => loadExerciseName(item)}
@@ -47,22 +47,27 @@ const ExerciseList: React.FC<screenProps> = (props: screenProps) => {
                             });
                             props.newPage('Exercise');
                         }}
+                        style={style}
                     />
                 )
             }}
-            ListFooterComponent={
-                <ListItem text={"New exercise"}
-                    onPress={async (): Promise<void> => {
-                        let newExercise = await props.getProps().saveNewExercise!();
-                        props.disableBack!(true);
-                        props.newProps({
-                            exercise: newExercise,
-                        });
-                        props.newPage('ExerciseSettings');
-                    }}
-                    style={{color: getStyle().accent}}
-                />
-            }
+            ListFooterComponent={(style: globalStyle) => {
+                style.color = style.accent;
+                return (
+                    <ListItem text={"New exercise"}
+                        onPress={async (): Promise<void> => {
+                            let newExercise = await props.getProps().saveNewExercise!();
+                            props.disableBack!(true);
+                            props.newProps({
+                                exercise: newExercise,
+                            });
+                            props.newPage('ExerciseSettings');
+                        }}
+                        style={style}
+                    />
+                );
+            }}
+            separator={true}
         />
     );
 }

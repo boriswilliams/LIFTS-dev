@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { loadDayList, saveNewDay, loadDayName, loadDayExerciseList } from '../storage/days';
 import { loadExerciseList, saveNewExercise } from '../storage/exercises';
 import { addDayExercise } from '../storage/both';
-import { getStyle, APP_NAME } from '../utils/styles';
+import { getStyle, APP_NAME, globalStyle } from '../utils/styles';
 import ListItem from '../components/listItem';
 import Button from '../components/button';
 import List from '../components/list';
@@ -41,7 +41,7 @@ const DayList: React.FC<screenProps> = (props: screenProps) => {
                     }}
                 />
             }
-            renderItem={({item}) => {
+            renderItem={({index, item, style}) => {
                 return (
                     <ListItem
                         getText={async (): Promise<string> => await loadDayName(item)}
@@ -58,25 +58,30 @@ const DayList: React.FC<screenProps> = (props: screenProps) => {
                             });
                             props.newPage('ExerciseList');
                         }}
+                        style={style}
                     />
                 )
             }}
-            ListFooterComponent={
-                <ListItem
-                    text={"New workout"}
-                    onPress={
-                        async (): Promise<void> => {
-                            let newDay = await saveNewDay();
-                            props.disableBack!(true);
-                            props.newProps({
-                                day: newDay,
-                            });
-                            props.newPage('DaySettings');
+            ListFooterComponent={(style: globalStyle) => {
+                style.color = style.accent;
+                return (
+                    <ListItem
+                        text={"New workout"}
+                        onPress={
+                            async (): Promise<void> => {
+                                let newDay = await saveNewDay();
+                                props.disableBack!(true);
+                                props.newProps({
+                                    day: newDay,
+                                });
+                                props.newPage('DaySettings');
+                            }
                         }
-                    }
-                    style={{color: getStyle().accent}}
-                />
-            }
+                        style={style}
+                    />
+                );
+            }}
+            separator={true}
         />
     );
 }

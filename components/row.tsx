@@ -7,11 +7,12 @@ import Cell from './cell';
 type rowProps = {
     data: string[];
     selected?: boolean;
+    style?: globalStyle;
 }
 
 const Row: React.FC<rowProps> = (props: rowProps) => {
     let customStyle: TextStyle = {textAlign: 'center'};
-    let style: globalStyle = getStyle();
+    const style = props.style ?? getStyle();
     if (props.selected)
         style.color=style.accent;
     return (

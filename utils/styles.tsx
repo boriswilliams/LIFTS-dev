@@ -5,12 +5,14 @@ import { globalContext } from '../app/context';
 
 type globalStyle = {
     backgroundColor: string;
+    backgroundMid: string;
     backgroundDark: string;
     color: string;
     accent: string;
     borderTopLeftRadius?: number;
     borderTopRightRadius?: number;
     fontSize?: number;
+    distinguish: string;
 }
 
 const TEXT_SIZE = 20;
@@ -46,6 +48,7 @@ function getStyle(): globalStyle {
         case 'dev':
             res = {
                 backgroundColor: getColour(),
+                backgroundMid: getColour(),
                 backgroundDark: getColour(),
                 color: 'black',
                 accent: 'black',
@@ -55,6 +58,7 @@ function getStyle(): globalStyle {
         case 'light':
             res = {
                 backgroundColor: '#fafafa',
+                backgroundMid: '#ececec',
                 backgroundDark: '#dedede',
                 color: '#262626',
                 accent: '#478af5',
@@ -64,6 +68,7 @@ function getStyle(): globalStyle {
         case 'dark':
             res = {
                 backgroundColor: '#303030',
+                backgroundMid: '#2c2c2c',
                 backgroundDark: '#282828',
                 color: 'white',
                 accent: '#ffac30',

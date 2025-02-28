@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { getStyle } from '../utils/styles';
+import { getStyle, globalStyle } from '../utils/styles';
 import ListItem from '../components/listItem';
 import { hashSet } from '../utils/_types';
 import List from '../components/list';
@@ -24,7 +24,7 @@ const StackList: React.FC<screenProps> = (props: screenProps) => {
         <List
             style={[getStyle(), {flex: 1},]}
             data={stackList}
-            renderItem={({item}) => {
+            renderItem={({index, item, style}) => {
                 return (
                     <ListItem
                         getText={() => loadStackName(item)}
@@ -34,22 +34,27 @@ const StackList: React.FC<screenProps> = (props: screenProps) => {
                             });
                             props.newPage('Stack');
                         }}
+                        style={style}
                     />
                 )
             }}
-            ListFooterComponent={
-                <ListItem text={"New stack"}
-                    onPress={async (): Promise<void> => {
-                        let newStack = await saveNewStack();
-                        props.disableBack!(true);
-                        props.newProps({
-                            stack: newStack,
-                        });
-                        props.newPage('Stack');
-                    }}
-                    style={{color: getStyle().accent}}
-                />
-            }
+            ListFooterComponent={(style: globalStyle) => {
+                style.color = style.accent;
+                return (
+                    <ListItem text={"New stack"}
+                        onPress={async (): Promise<void> => {
+                            let newStack = await saveNewStack();
+                            props.disableBack!(true);
+                            props.newProps({
+                                stack: newStack,
+                            });
+                            props.newPage('Stack');
+                        }}
+                        style={style}
+                    />
+                );
+            }}
+            separator={true}
         />
     );
 }

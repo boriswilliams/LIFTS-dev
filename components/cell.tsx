@@ -10,7 +10,6 @@ const Cell: React.FC<cellProps> = (props: cellProps) => {
     if  (props.text.match(/^[<>+-\.\d]*$/) == null) {
         return <Text style={props.style}>{props.text}</Text>
     }
-    console.log(props.text);
     const chars = '<>+-.';
     let left = '';
     let middle = '';

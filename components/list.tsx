@@ -1,6 +1,7 @@
-import { FlatList, FlatListProps, View } from 'react-native';
+import { ReactNode } from 'react';
+import { FlatList, View } from 'react-native';
 
-import { getStyle } from '../utils/styles';
+import { getStyle,  globalStyle } from '../utils/styles';
 
 const ItemSeparatorComponent: React.FC<{}> = (props: {}) => {
     return (
@@ -10,23 +11,56 @@ const ItemSeparatorComponent: React.FC<{}> = (props: {}) => {
     );
 }
 
-const List: React.FC<FlatListProps<any>> = (props: FlatListProps<any>) => {
+type renderItemArguments = {
+    index: number;
+    item: any;
+    style: globalStyle;
+}
+
+type ListProps = {
+    style?: object;
+    data: ArrayLike<any>;
+    renderItem: (x: renderItemArguments) => React.ReactElement;
+    ListHeaderComponent?: ReactNode;
+    ListFooterComponent?: (x: globalStyle) => ReactNode;
+    keyExtractor?: (x: any) => string;
+    alternate?: boolean;
+    separator?: boolean;
+}
+
+const List: React.FC<ListProps> = (props: ListProps) => {
+    const { data, renderItem, ListHeaderComponent, ListFooterComponent, keyExtractor, alternate, separator } = props;
+    const style = getStyle();
+    const alternateStart = ListHeaderComponent ? 0 : 1;
     return (
         <FlatList
-            {...props}
+            style = {props.style}
+            data = {data}
+            renderItem = {({item, index}) => {
+                const itemStyle = {...style};
+                if (alternate && index % 2 == alternateStart)
+                    itemStyle.backgroundColor = itemStyle.backgroundMid;
+                return renderItem({index, item, style: itemStyle});
+            }}
             ListHeaderComponent={
-                <>
-                    {props.ListHeaderComponent}
-                    {props.ListHeaderComponent !== undefined && <ItemSeparatorComponent />}
-                </>
+                <View>
+                    {ListHeaderComponent}
+                    {separator && ListHeaderComponent !== undefined && <ItemSeparatorComponent/>}
+                </View>
             }
-            ItemSeparatorComponent={ItemSeparatorComponent}
+            ItemSeparatorComponent={separator && ItemSeparatorComponent || null}
             ListFooterComponent={
-                <>
-                  {props.data!.length > 0 && props.ListFooterComponent !== undefined && <ItemSeparatorComponent />}
-                  {props.ListFooterComponent}
-                </>
-              }
+                <View>
+                  {separator && data!.length > 0 && ListFooterComponent !== undefined && <ItemSeparatorComponent/>}
+                  {ListFooterComponent !== undefined && (() => {
+                    const style = getStyle();
+                    if (alternate && data.length == alternateStart)
+                        style.backgroundColor = style.backgroundMid;
+                    return ListFooterComponent(style);
+                  })()}
+                </View>
+            }
+            keyExtractor={keyExtractor}
         />
     )
 }

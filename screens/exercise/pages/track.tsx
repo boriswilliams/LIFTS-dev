@@ -82,7 +82,7 @@ const Track: React.FC<pageProps> = (props: pageProps) => {
                 ListHeaderComponent={
                     <Row data={['Date', 'Reps', 'Weight']}/>
                 }
-                renderItem={({index, item}) => {
+                renderItem={({index, item, style}) => {
                     return (
                         <Pressable
                             key={index}
@@ -92,10 +92,11 @@ const Track: React.FC<pageProps> = (props: pageProps) => {
                                 setSelected(temp);
                             }}
                         >
-                            <Row data={item} selected={index in selected}/>
+                            <Row data={item} selected={index in selected} style={style}/>
                         </Pressable>
                     )
                 }}
+                alternate={true}
             />
             {count > 0 &&
                 <Button
