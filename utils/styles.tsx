@@ -12,12 +12,6 @@ type globalStyle = {
     borderTopLeftRadius?: number;
     borderTopRightRadius?: number;
     fontSize?: number;
-    borderColor: string;
-    borderTopColor?: string;
-    borderLeftColor?: string;
-    borderRightColor?: string;
-    borderBottomColor?: string;
-    borderWidth?: number;
 }
 
 const TEXT_SIZE = 20;
@@ -58,7 +52,6 @@ function getStyle(): globalStyle {
                 color: 'black',
                 accent: 'black',
                 fontSize: TEXT_SIZE,
-                borderColor: '',
             };
             break;
         case 'light':
@@ -69,7 +62,6 @@ function getStyle(): globalStyle {
                 color: '#262626',
                 accent: '#478af5',
                 fontSize: TEXT_SIZE,
-                borderColor: '',
             };
             break;
         case 'dark':
@@ -80,13 +72,11 @@ function getStyle(): globalStyle {
                 color: 'white',
                 accent: '#ffac30',
                 fontSize: TEXT_SIZE,
-                borderColor: '',
             };
             break;
         default:
             throw new Error();
     }
-    res.borderColor = res.backgroundDark;
     return res;
 }
 

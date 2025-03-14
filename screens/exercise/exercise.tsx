@@ -2,7 +2,6 @@ import { View } from 'react-native';
 import { useState, useEffect } from 'react';
 
 import { round } from './_helpers';
-import ListItem from '../../components/listItem';
 import Track from './pages/track';
 import WeightList from './pages/weightList';
 import RepList from './pages/repList';
@@ -12,6 +11,7 @@ import { set } from '../../utils/_types';
 import { screenProps } from '../_types';
 import Button from '../../components/button';
 import { getStyle, globalStyle } from '../../utils/styles';
+import Tab from './components/tab';
 
 const Exercise: React.FC<screenProps> = (props: screenProps) => {
     const [tab, setTab] = useState<number>(0);
@@ -68,12 +68,14 @@ const Exercise: React.FC<screenProps> = (props: screenProps) => {
         >
             <View style={[backGroundStyle, {flexDirection: 'row'}]}>
                 {tabs.map((_, index) =>
-                    <ListItem
+                    <Tab
                         text={names[index]}
                         onPress={() => setTab(index)}
                         key={index}
                         selected={tab == index}
                         style={{textAlign: 'center'}}
+                        left={index==0}
+                        right={index==tabs.length-1}
                     />
                 )}
             </View>
