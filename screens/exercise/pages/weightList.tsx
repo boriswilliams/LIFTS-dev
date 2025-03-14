@@ -5,7 +5,8 @@ import Row from '../../../components/row';
 import List from '../../../components/list';
 import { calcReps, calcWeight, displayWeight, lowerWeight, MAX_REPS, roundWeightDown } from '../_helpers';
 import { pageProps } from '../_types';
-import { loadExerciseDelta, loadExerciseHistory } from '../../../storage/exercises';
+import { loadExerciseDelta, loadExerciseHistory, loadExerciseType, loadExerciseBodyAssisted } from '../../../storage/exercises';
+import { loadBodyWeight } from '../../../storage/profile';
 
 type weightListRow = {
     weight: number|string,
@@ -18,7 +19,7 @@ let total_limit = 15;
 let lower_rep_rec = 1;
 let upper_rep_rec = 15;
 
-async function add(temp: number[][], list: weightListRow[][], w: number, r: number): Promise<void> {
+async function add(temp: number[][], list: weightListRow[][], w: number, r: number, noNegs: boolean, bodyWeight: number): Promise<void> {
     let rec = Math.floor(r);
     let w_done;
     for (let i = 0; i < 2; i++) {
@@ -26,7 +27,7 @@ async function add(temp: number[][], list: weightListRow[][], w: number, r: numb
         if (rec > 0) {
             w_done = temp[rec-1][1];
             // filter for PRs
-            if (w > w_done && lower_rep_rec <= rec && rec <= upper_rep_rec) {
+            if (w > w_done && lower_rep_rec <= rec && rec <= upper_rep_rec && !(noNegs && w < bodyWeight)) {
                 list[i].push({weight: w, reps: r, rec: rec});
                 break;
             }
@@ -49,6 +50,8 @@ const WeightList: React.FC<pageProps> = (props: pageProps) => {
         (async () => {
             let delta = await loadExerciseDelta(props.exercise)
             let history = await loadExerciseHistory(props.exercise)
+            const noNegs = await loadExerciseType(props.exercise) == 'body' && !await loadExerciseBodyAssisted(props.exercise);
+            const bodyWeight = await loadBodyWeight();
             let maxes: Record<number, number> = {};
             for (let {reps, weight} of history)
                 maxes[reps] = Math.max(maxes[reps] || 0, weight);
@@ -63,10 +66,10 @@ const WeightList: React.FC<pageProps> = (props: pageProps) => {
             let data: weightListRow[][] = [[], []];
             let r: number;
             while (Math.floor(r = calcReps(oneRM, w, MAX_REPS)) <= MAX_REPS && w >= delta) {
-                await add(temp, data, w, r);
+                await add(temp, data, w, r, noNegs, bodyWeight);
                 w = await lowerWeight(props.exercise, w);
             }
-            await add(temp, data, w, r);
+            await add(temp, data, w, r, noNegs, bodyWeight);
             data[0].sort((x: weightListRow, y: weightListRow): number => {
                 // EASIEST
                 let cx: number = Number(x.weight) - calcWeight(oneRM, 1, x.rec);

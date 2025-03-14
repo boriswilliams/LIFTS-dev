@@ -80,8 +80,12 @@ const exerciseCustom = (key: number): string => `exercise_${key}_custom`;
 const loadExerciseCustom = async (key: number): Promise<number[]> => await load(exerciseCustom(key), []);
 const saveExerciseCustom = async (key: number, val: number[]): Promise<void> => await save(exerciseCustom(key), val);
 
+const exerciseBodyAssisted = (key: number): string => `exercise_${key}_body_assisted`;
+const loadExerciseBodyAssisted = async (key: number): Promise<boolean> => await load(exerciseBodyAssisted(key), false);
+const saveExerciseBodyAssisted = async (key: number, val: boolean): Promise<void> => await save(exerciseBodyAssisted(key), val);
+
 const loadExerciseWeights = async (key: number): Promise<any> => {
     return 0
 }
 
-export { loadExercises, saveExercises, saveNewExercise, loadExerciseName, saveExerciseName, loadExerciseHistory, saveExerciseHistory, appendExerciseHistory, loadExerciseDays, saveExerciseDays, loadExerciseMuscles, saveExerciseMuscles, loadExerciseMinRepRec, saveExerciseMinRepRec, loadExerciseMaxRepRec, saveExerciseMaxRepRec, loadExerciseType, saveExerciseType, loadExerciseDelta, saveExerciseDelta, loadExerciseCustom, saveExerciseCustom, loadExerciseWeights, TYPES, exerciseName, exerciseHistory, exerciseDays, exerciseMuscles, exerciseMinRepRec, exerciseMaxRepRec, exerciseType, exerciseDelta, exerciseCustom, loadExerciseList, loadExerciseDayList, loadExerciseMuscleList };
+export { loadExercises, saveExercises, saveNewExercise, loadExerciseName, saveExerciseName, loadExerciseHistory, saveExerciseHistory, appendExerciseHistory, loadExerciseDays, saveExerciseDays, loadExerciseMuscles, saveExerciseMuscles, loadExerciseMinRepRec, saveExerciseMinRepRec, loadExerciseMaxRepRec, saveExerciseMaxRepRec, loadExerciseType, saveExerciseType, loadExerciseDelta, saveExerciseDelta, loadExerciseCustom, saveExerciseCustom, loadExerciseWeights, TYPES, exerciseName, exerciseHistory, exerciseDays, exerciseMuscles, exerciseMinRepRec, exerciseMaxRepRec, exerciseType, exerciseDelta, exerciseCustom, loadExerciseList, loadExerciseDayList, loadExerciseMuscleList, loadExerciseBodyAssisted, saveExerciseBodyAssisted };

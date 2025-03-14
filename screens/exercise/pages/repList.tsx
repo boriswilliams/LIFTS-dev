@@ -11,8 +11,8 @@ const RepList: React.FC<pageProps> = (props: pageProps) => {
     const [data, setData] = useState<string[][]>([]);
     useEffect(() => {
         (async (): Promise<void> => {
-            let delta = await loadExerciseDelta(props.exercise)
-            let history = await loadExerciseHistory(props.exercise)
+            let delta = await loadExerciseDelta(props.exercise);
+            let history = await loadExerciseHistory(props.exercise);
             let maxes: Record<number, number> = {};
             for (let {reps, weight} of history)
                 if (reps >= 1)

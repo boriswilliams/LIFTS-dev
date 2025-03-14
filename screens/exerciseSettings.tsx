@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import { View, TextInput } from 'react-native';
+import { View, TextInput, Pressable, Text } from 'react-native';
+import Checkbox from 'expo-checkbox';
 
-import { loadExerciseType, loadExerciseName, loadExerciseMinRepRec, loadExerciseMaxRepRec, saveExerciseName, loadExerciseDelta, saveExerciseMinRepRec, saveExerciseMaxRepRec, saveExerciseType, saveExerciseDelta, TYPES, loadExerciseMuscles } from '../storage/exercises';
+import { loadExerciseType, loadExerciseName, loadExerciseMinRepRec, loadExerciseMaxRepRec, saveExerciseName, loadExerciseDelta, saveExerciseMinRepRec, saveExerciseMaxRepRec, saveExerciseType, saveExerciseDelta, TYPES, loadExerciseMuscles, loadExerciseBodyAssisted, saveExerciseBodyAssisted } from '../storage/exercises';
 import { deleteExercise } from '../storage/allExercises';
 import Selector from '../components/selector';
 import InputNum from '../components/inputNum';
@@ -19,6 +20,7 @@ const ExerciseSettings: React.FC<screenProps> = (props: screenProps) => {
     const [maxRepRec, setMaxRepRec] = useState<string>(String(MAX_REPS));
     const [type, setType] = useState(0);
     const [delta, setDelta] = useState<string>(String(0));
+    const [bodyAssisted, setBodyAssisted] = useState<boolean>(false);
     async function updateExerciseMuscles(included: number[], excluded: number[], includedSet: hashSet): Promise<void> {
         updateParentItems(props.getProps().exercise!, included, excluded, includedSet, deleteExerciseMuscle, addExerciseMuscle);
     }
@@ -45,6 +47,7 @@ const ExerciseSettings: React.FC<screenProps> = (props: screenProps) => {
             setType(TYPES.indexOf(result));
         });
         loadExerciseDelta(props.getProps().exercise!).then(result => {setDelta(String(result));});
+        loadExerciseBodyAssisted(props.getProps().exercise!).then(result => setBodyAssisted(result));
     }, []);
     return (
         <View style={[getStyle(), {flex: 1}]}>
@@ -82,7 +85,7 @@ const ExerciseSettings: React.FC<screenProps> = (props: screenProps) => {
                 selected={type}
                 setSelected={setType}
             />
-            {(TYPES[type] == 'delta' || TYPES[type] == 'body') &&
+            {(TYPES[type] === 'delta' || TYPES[type] === 'body') &&
                 <InputNum
                     value={delta}
                     changeValue={setDelta}
@@ -91,6 +94,17 @@ const ExerciseSettings: React.FC<screenProps> = (props: screenProps) => {
                     delta={0.25}
                     decimals={true}
                 />
+            }
+            {(TYPES[type] === 'body') &&
+                <Pressable
+                    style={[getStyle(), {flexDirection: 'row', alignItems: 'center', paddingLeft: DEFAULT_PADDING}]}
+                    onPress={() => setBodyAssisted(value => !value)}
+                >
+                    <Checkbox
+                        value={bodyAssisted}
+                    />
+                    <Text style={[getStyle(), {padding: DEFAULT_PADDING}]}>{'Suggest assisted'}</Text>
+                </Pressable>
             }
             <Button
                 title="Save"
@@ -104,8 +118,10 @@ const ExerciseSettings: React.FC<screenProps> = (props: screenProps) => {
                         console.error(`${minRepRec} > ${maxRepRec}`);
                     }
                     await saveExerciseType(props.getProps().exercise!, TYPES[type]);
-                    if (TYPES[type] == 'delta' || TYPES[type] == 'body')
+                    if (TYPES[type] === 'delta' || TYPES[type] === 'body')
                         await saveExerciseDelta(props.getProps().exercise!, Number(delta));
+                    if (TYPES[type] === 'body')
+                        await saveExerciseBodyAssisted(props.getProps().exercise!, bodyAssisted);
                 }}
             />
         </View>
