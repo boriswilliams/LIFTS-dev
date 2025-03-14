@@ -6,6 +6,7 @@ import { hashSet } from '../utils/_types';
 import Button from '../components/button';
 import { screenProps } from './_types';
 import Includer, { getLists } from '../components/includer';
+import { getStyle } from '../utils/styles';
 
 const MuscleSelect: React.FC<screenProps> = (props: screenProps) => {
     const [includedSet, setIncludedSet] = useState<hashSet>({});
@@ -19,7 +20,7 @@ const MuscleSelect: React.FC<screenProps> = (props: screenProps) => {
         getLists(props.getProps().loadIncluded!, loadMuscleList, setIncludedSet, setIncluded, setExcluded);
     }, []);
     return (
-        <View style={{flex: 1}}>
+        <View style={[getStyle(), {flex: 1}]}>
             <Includer
                 loadName={loadMuscleName}
                 included={included}
