@@ -2,7 +2,7 @@ import { Pressable } from 'react-native';
 
 import { getStyle } from '../../../utils/styles';
 import Item from '../../../components/item';
-import { globalStyle } from '../../../utils/styles';
+import { globalStyle, BORDER_WIDTH } from '../../../utils/styles';
 
 type tabProps = {
     text: string;
@@ -14,25 +14,25 @@ type tabProps = {
 }
 
 const BORDER_RADIUS = 5;
-const BORDER_WIDTH = 1;
 
 const Tab: React.FC<tabProps> = (props: tabProps) => {
+    const border_width = BORDER_WIDTH / 2;
     const style: globalStyle = getStyle();
     const extraStyle: any = {
         borderColor: style.backgroundDark,
-        borderTopWidth: BORDER_WIDTH,
-        borderBottomWidth: BORDER_WIDTH,
+        borderTopWidth: border_width,
+        borderBottomWidth: border_width,
     };
     if (props.selected) {
         extraStyle.borderTopLeftRadius = BORDER_RADIUS;
         extraStyle.borderTopRightRadius = BORDER_RADIUS;
         extraStyle.borderTopColor = style.accent;
         if (!props.left) {
-            extraStyle.borderLeftWidth = BORDER_WIDTH;
+            extraStyle.borderLeftWidth = border_width;
             extraStyle.borderLeftColor = style.accent;
         }
         if (!props.right) {
-            extraStyle.borderRightWidth = BORDER_WIDTH;
+            extraStyle.borderRightWidth = border_width;
             extraStyle.borderRightColor = style.accent;
         }
         extraStyle.borderBottomColor = style.backgroundColor;

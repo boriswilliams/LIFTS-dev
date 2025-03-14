@@ -20,6 +20,8 @@ const DEFAULT_PADDING = 5;
 
 const APP_NAME = 'OVERLOAD';
 
+const BORDER_WIDTH = 2;
+
 const styles = StyleSheet.create({
     listItemText: {
         padding: DEFAULT_PADDING,
@@ -82,4 +84,4 @@ function getStyle(): globalStyle {
 
 export default styles;
 
-export { getStyle, STYLES, DEFAULT_PADDING, APP_NAME, TEXT_SIZE, globalStyle };
+export { getStyle, STYLES, DEFAULT_PADDING, APP_NAME, TEXT_SIZE, globalStyle, BORDER_WIDTH };
