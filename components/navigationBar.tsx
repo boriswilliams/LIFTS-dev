@@ -6,6 +6,7 @@ import Button from './button';
 type navigationBarProps = {
     title: string;
     page: string[];
+    headerLeft: React.JSX.Element | undefined;
     headerRight: React.JSX.Element | undefined;
     goBack: (x?: number) => void;
     backDisabled: boolean;
@@ -14,7 +15,7 @@ type navigationBarProps = {
 const NavigationBar: React.FC<navigationBarProps> = (props: navigationBarProps) => {
     return (
         <View style={[getStyle(), {flexDirection: 'row', alignItems: 'center', backgroundColor: getStyle().backgroundDark}]}>
-            {props.page.length > 1 && !props.backDisabled && <Button title='Back' onPress={() => props.goBack(1)}/>}
+            {props.headerLeft || props.page.length > 1 && !props.backDisabled && <Button title='Back' onPress={() => props.goBack(1)}/>}
             <Text style={[getStyle(), {flex: 1, padding: DEFAULT_PADDING, backgroundColor: getStyle().backgroundDark}]}>{props.title}</Text>
             {props.headerRight}
         </View>

@@ -10,7 +10,8 @@ import { screenProps } from './_types';
 const StackList: React.FC<screenProps> = (props: screenProps) => {
     const [stackList, setStackList] = useState<number[]>([]);
     useEffect(() => {
-        props.setHeaderRight(undefined)
+        props.makeSwitchButton();
+        props.setHeaderRight(undefined);
         props.disableBack!(false);
         loadStacks().then((result: hashSet) => {
             let stackList: number[] = [];

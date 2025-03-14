@@ -1,7 +1,8 @@
-import { ReactNode } from 'react';
-import { FlatList, View } from 'react-native';
+import { ReactNode, ReactElement, useEffect, useCallback } from 'react';
+import { FlatList, View, Text } from 'react-native';
 
 import { getStyle,  globalStyle } from '../utils/styles';
+import Item from './item';
 
 const ItemSeparatorComponent: React.FC<{}> = (props: {}) => {
     return (
@@ -20,7 +21,7 @@ type renderItemArguments = {
 type ListProps = {
     style?: object;
     data: ArrayLike<any>;
-    renderItem: (x: renderItemArguments) => React.ReactElement;
+    renderItem: (x: renderItemArguments) => ReactElement;
     ListHeaderComponent?: ReactNode;
     ListFooterComponent?: (x: globalStyle) => ReactNode;
     keyExtractor?: (x: any) => string;
@@ -32,6 +33,12 @@ const List: React.FC<ListProps> = (props: ListProps) => {
     const { data, renderItem, ListHeaderComponent, ListFooterComponent, keyExtractor, alternate, separator } = props;
     const style = getStyle();
     const alternateStart = ListHeaderComponent ? 0 : 1;
+    const getHeader = useCallback(() => (
+        <View>
+            {ListHeaderComponent}
+            {separator && ListHeaderComponent !== undefined && <ItemSeparatorComponent/>}
+        </View>
+    ), [ListHeaderComponent]);
     return (
         <FlatList
             style = {props.style}
@@ -42,12 +49,7 @@ const List: React.FC<ListProps> = (props: ListProps) => {
                     itemStyle.backgroundColor = itemStyle.backgroundMid;
                 return renderItem({index, item, style: itemStyle});
             }}
-            ListHeaderComponent={
-                <View>
-                    {ListHeaderComponent}
-                    {separator && ListHeaderComponent !== undefined && <ItemSeparatorComponent/>}
-                </View>
-            }
+            ListHeaderComponent={getHeader}
             ItemSeparatorComponent={separator && ItemSeparatorComponent || null}
             ListFooterComponent={
                 <View>

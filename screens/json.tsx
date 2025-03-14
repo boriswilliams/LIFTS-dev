@@ -10,6 +10,7 @@ const JSON: React.FC<screenProps> = (props: screenProps) => {
     const [data, setData] = useState<string>('');
     const [message, setMessage] = useState<string>('');
     useEffect(() => {
+        props.makeSwitchButton();
         props.setHeaderRight(undefined);
         if (props.getProps().data !== undefined) {
             setMessage('Save failed, check syntax');

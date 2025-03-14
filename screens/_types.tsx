@@ -5,6 +5,7 @@ type screenProps = {
     newProps: (p: navigatorProps) => void;
     getProps: () => navigatorProps;
     setTitle: (s: string) => void;
+    makeSwitchButton: (x?: string, y?: string) => void;
     setHeaderRight: (x: React.JSX.Element|undefined) => void;
     goBack: (x?: number) => void;
     disableBack?: (x: boolean) => void;

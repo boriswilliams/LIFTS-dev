@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native';
 import { globalContext } from '../app/context';
 
 type globalStyle = {
-    backgroundColor: string;
+    backgroundColor?: string;
     backgroundMid: string;
     backgroundDark: string;
     color: string;
@@ -12,7 +12,6 @@ type globalStyle = {
     borderTopLeftRadius?: number;
     borderTopRightRadius?: number;
     fontSize?: number;
-    distinguish: string;
 }
 
 const TEXT_SIZE = 20;
@@ -31,7 +30,7 @@ const styles = StyleSheet.create({
     }
 });
 
-const STYLES = ['dev', 'light', 'dark']
+const STYLES = ['light', 'dark', 'dev']
 
 function getColour(): string {
     var letters = '0123456789ABCDEF';

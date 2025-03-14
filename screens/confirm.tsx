@@ -8,6 +8,7 @@ import { screenProps } from './_types';
 const Confirm: React.FC<screenProps> = (props: screenProps) => {
     const [name, setName] = useState('');
     useEffect(() => {
+        props.makeSwitchButton();
         props.setHeaderRight(undefined);
         props.getProps().getName!().then((name: string): void => { setName(name); });
     }, []);

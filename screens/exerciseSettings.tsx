@@ -1,14 +1,17 @@
 import { useEffect, useState } from 'react';
 import { View, TextInput } from 'react-native';
 
-import { loadExerciseType, loadExerciseName, loadExerciseMinRepRec, loadExerciseMaxRepRec, saveExerciseName, loadExerciseDelta, saveExerciseMinRepRec, saveExerciseMaxRepRec, saveExerciseType, saveExerciseDelta, TYPES } from '../storage/exercises';
-import { deleteExercise } from '../storage/both';
+import { loadExerciseType, loadExerciseName, loadExerciseMinRepRec, loadExerciseMaxRepRec, saveExerciseName, loadExerciseDelta, saveExerciseMinRepRec, saveExerciseMaxRepRec, saveExerciseType, saveExerciseDelta, TYPES, loadExerciseMuscles } from '../storage/exercises';
+import { deleteExercise } from '../storage/allExercises';
 import Selector from '../components/selector';
 import InputNum from '../components/inputNum';
 import Button from '../components/button';
 import { getStyle, DEFAULT_PADDING } from '../utils/styles';
 import { screenProps } from './_types';
 import { MAX_REPS } from './exercise/_helpers';
+import { updateParentItems } from '../components/includer';
+import { hashSet } from '../utils/_types';
+import { deleteExerciseMuscle, addExerciseMuscle } from '../storage/muscleExercises';
 
 const ExerciseSettings: React.FC<screenProps> = (props: screenProps) => {
     const [name, setName] = useState<string>('');
@@ -16,7 +19,11 @@ const ExerciseSettings: React.FC<screenProps> = (props: screenProps) => {
     const [maxRepRec, setMaxRepRec] = useState<string>(String(MAX_REPS));
     const [type, setType] = useState(0);
     const [delta, setDelta] = useState<string>(String(0));
+    async function updateExerciseMuscles(included: number[], excluded: number[], includedSet: hashSet): Promise<void> {
+        updateParentItems(props.getProps().exercise!, included, excluded, includedSet, deleteExerciseMuscle, addExerciseMuscle);
+    }
     useEffect(() => {
+        props.makeSwitchButton();
         props.setHeaderRight(
             <Button
                 title={'Delete'}
@@ -42,6 +49,16 @@ const ExerciseSettings: React.FC<screenProps> = (props: screenProps) => {
     return (
         <View style={[getStyle(), {flex: 1}]}>
             <TextInput style={[getStyle(), {padding: DEFAULT_PADDING}]} value={name} onChangeText={setName}/>
+            <Button
+                title={'Select muscles'}
+                onPress={async (): Promise<void> => {
+                    props.newProps({
+                        loadIncluded: async () => await loadExerciseMuscles(props.getProps().exercise!),
+                        updateMuscles: updateExerciseMuscles
+                    });
+                    props.newPage('MuscleSelect');
+                }}
+            />
             <InputNum
                 value={minRepRec}
                 changeValue={setMinRepRec}

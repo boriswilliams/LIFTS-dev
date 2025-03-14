@@ -1,35 +1,20 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import { View, TextInput } from 'react-native';
 
-import { loadDayName, saveDayName, loadDayExercises } from '../storage/days';
+import { loadDayName, saveDayName, loadDayExercises, loadDayMuscles, loadDayMuscleList } from '../storage/days';
 import { hashSet } from '../utils/_types';
-import { deleteDay, addDayExercise, deleteDayExercise } from '../storage/both';
-import ListItem from '../components/listItem';
+import { addDayExercise, deleteDayExercise } from '../storage/dayExercises';
+import { deleteDay } from '../storage/allExercises';
 import { getStyle, DEFAULT_PADDING } from '../utils/styles';
 import { loadExerciseList, loadExerciseName } from '../storage/exercises';
 import Button from '../components/button';
-import List from '../components/list';
 import { screenProps } from './_types';
-
-const move = (index: number, start: number[], setStart: (x: number[]) => void, dest: number[], setDest: (x: number[]) => void) => {
-    start = [...start]
-    dest = [...dest]
-    let item: number | undefined = start[index];
-    if (item !== undefined) {
-        start.splice(index, 1)
-        dest.push(item);
-    }
-    setStart(start);
-    setDest(dest);
-}
+import Includer, { updateParentItems, getLists } from '../components/includer';
+import { deleteDayMuscle, addDayMuscle } from '../storage/dayMuscles';
+import { loadMuscleExerciseList } from '../storage/muscles';
 
 async function updateDayExercises(day: number, included: number[], excluded: number[], includedSet: hashSet): Promise<void> {
-    for (let item of excluded)
-        if (item in includedSet)
-            await deleteDayExercise(day, item);
-    for (let item of included)
-        if (!(item in includedSet))
-            await addDayExercise(day, item);
+    updateParentItems(day, included, excluded, includedSet, deleteDayExercise, addDayExercise);
 }
 
 const DaySettings: React.FC<screenProps> = (props: screenProps) => {
@@ -37,7 +22,12 @@ const DaySettings: React.FC<screenProps> = (props: screenProps) => {
     const [includedSet, setIncludedSet] = useState<hashSet>({});
     const [included, setIncluded] = useState<number[]>([]);
     const [excluded, setExcluded] = useState<number[]>([]);
+    const [excludedTitle, setExcludedTitle] = useState<string>('');
+    const updateDayMuscles = useCallback(async (included: number[], excluded: number[], includedSet: hashSet) =>
+        updateParentItems(props.getProps().day!, included, excluded, includedSet, deleteDayMuscle, addDayMuscle)
+    , []);
     useEffect(() => {
+        props.makeSwitchButton();
         props.setHeaderRight(
             <Button
                 title={'Delete'}
@@ -53,64 +43,44 @@ const DaySettings: React.FC<screenProps> = (props: screenProps) => {
             />
         )
         loadDayName(props.getProps().day!).then(result => {setName(result)});
-        (async (): Promise<void> => {
-            let includedSet: hashSet = await loadDayExercises(props.getProps().day!);
-            setIncludedSet(includedSet);
-            let exerciseList: number[] = await loadExerciseList();
-            let included: number[] = [];
-            let excluded: number[] = [];
-            for (let item of exerciseList) {
-                if (item in includedSet) {
-                    included.push(item);
+        loadDayMuscleList(props.getProps().day!).then(muscles => {
+            setExcludedTitle(muscles.length === 0 && 'All exercises' || 'Exercises for muscles');
+            const loadIncluded = async () => await loadDayExercises(props.getProps().day!);
+            const loadAll = async () => {
+                let exercises: number[] = [];
+                if (muscles.length === 0) {
+                    exercises = await loadExerciseList();
                 } else {
-                    excluded.push(item);
+                    for (let muscle of muscles) {
+                        exercises.push(...await loadMuscleExerciseList(muscle));
+                    }
                 }
+                return exercises;
             }
-            setIncluded(included);
-            setExcluded(excluded);
-        })();
+            getLists(loadIncluded, loadAll, setIncludedSet, setIncluded, setExcluded);
+        });
     }, []);
     return (
         <View style={{flex: 1}}>
             <TextInput style={[getStyle(), {padding: DEFAULT_PADDING}]} value={name} onChangeText={setName}/>
-            <View style={[getStyle(), {flex: 1}, {flexDirection: 'row'}]}>
-                <List
-                    style={[getStyle(), {flex: 1},]}
-                    data={included}
-                    ListHeaderComponent={<ListItem text={'included'}/>}
-                    renderItem={({index, item, style}) => {
-                        return (
-                            <ListItem
-                                getText={() => loadExerciseName(item)}
-                                onPress={() => {
-                                    move(index, included, setIncluded, excluded, setExcluded);
-                                }}
-                                style={style}
-                            />
-                        )
-                    }}
-                    keyExtractor={(item) => String(item)}
-                    separator={true}
-                />
-                <List
-                    style={[getStyle(), {flex: 1},]}
-                    data={excluded}
-                    ListHeaderComponent={<ListItem text={'excluded'}/>}
-                    renderItem={({index, item, style}) => {
-                        return (
-                            <ListItem
-                                getText={() => loadExerciseName(item)}
-                                onPress={() => {
-                                    move(index, excluded, setExcluded, included, setIncluded);
-                                }}
-                                style={style}
-                            />
-                        )
-                    }}
-                    keyExtractor={(item) => String(item)}
-                    separator={true}
-                />
-            </View>
+            <Button
+                title={'Select muscles'}
+                onPress={async (): Promise<void> => {
+                    props.newProps({
+                        loadIncluded: async () => await loadDayMuscles(props.getProps().day!),
+                        updateMuscles: updateDayMuscles
+                    });
+                    props.newPage('MuscleSelect');
+                }}
+            />
+            <Includer
+                loadName={loadExerciseName}
+                included={included}
+                setIncluded={setIncluded}
+                excluded={excluded}
+                setExcluded={setExcluded}
+                customExcludedTitle={excludedTitle}
+            />
             <Button
                 title="Save"
                 onPress={async () => {

@@ -11,6 +11,7 @@ const Stack: React.FC<screenProps> = (props: screenProps) => {
     const [data, setData] = useState<string>(String([]));
     const [message, setMessage] = useState<string>('');
     useEffect(() => {
+        props.makeSwitchButton();
         props.setHeaderRight(
             <Button
                 title={'Delete'}

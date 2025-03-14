@@ -1,4 +1,4 @@
-import { load, save, del, addToHashSet, addToList } from './_helpers';
+import { load, save, addToHashSet, addToList, loadList } from './_helpers';
 import { hashSet, set } from '../utils/_types';
 
 const exercises = (): string => 'exercises';
@@ -13,12 +13,7 @@ const loadNextExerciseIndex = async (): Promise<number> => {
 }
 
 const loadExerciseList = async (): Promise<number[]> => {
-    let exercises = await loadExercises();
-    let res = [];
-    let exercise: string;
-    for (exercise in exercises)
-        res.push(Number(exercise));
-    return res
+    return loadList(loadExercises);
 }
 
 const saveNewExercise = async (): Promise<number> => {
@@ -50,6 +45,19 @@ const loadExerciseDayList = async (key: number): Promise<number[]> => {
     return res;
 }
 
+const exerciseMuscles = (key: number): string => `exercise_${key}_muscles`;
+const loadExerciseMuscles = async (key: number): Promise<hashSet> => await load(exerciseMuscles(key), {});
+const saveExerciseMuscles = async (key: number, val: hashSet): Promise<void> => await save(exerciseMuscles(key), val);
+
+const loadExerciseMuscleList = async (key: number): Promise<number[]> => {
+    let muscles = await loadExerciseMuscles(key);
+    let res = [];
+    let muscle: string;
+    for (muscle in muscles)
+        res.push(Number(muscle));
+    return res;
+}
+
 const exerciseMinRepRec = (key: number): string => `exercise_${key}_minRepRec`;
 const loadExerciseMinRepRec = async (key: number): Promise<number> => await load(exerciseMinRepRec(key), 5);
 const saveExerciseMinRepRec = async (key: number, val: number): Promise<void> => await save(exerciseMinRepRec(key), val);
@@ -76,4 +84,4 @@ const loadExerciseWeights = async (key: number): Promise<any> => {
     return 0
 }
 
-export { loadExercises, saveExercises, saveNewExercise, loadExerciseName, saveExerciseName, loadExerciseHistory, saveExerciseHistory, appendExerciseHistory, loadExerciseDays, saveExerciseDays, loadExerciseMinRepRec, saveExerciseMinRepRec, loadExerciseMaxRepRec, saveExerciseMaxRepRec, loadExerciseType, saveExerciseType, loadExerciseDelta, saveExerciseDelta, loadExerciseCustom, saveExerciseCustom, loadExerciseWeights, TYPES, exerciseName, exerciseHistory, exerciseDays, exerciseMinRepRec, exerciseMaxRepRec, exerciseType, exerciseDelta, exerciseCustom, loadExerciseList, loadExerciseDayList };
+export { loadExercises, saveExercises, saveNewExercise, loadExerciseName, saveExerciseName, loadExerciseHistory, saveExerciseHistory, appendExerciseHistory, loadExerciseDays, saveExerciseDays, loadExerciseMuscles, saveExerciseMuscles, loadExerciseMinRepRec, saveExerciseMinRepRec, loadExerciseMaxRepRec, saveExerciseMaxRepRec, loadExerciseType, saveExerciseType, loadExerciseDelta, saveExerciseDelta, loadExerciseCustom, saveExerciseCustom, loadExerciseWeights, TYPES, exerciseName, exerciseHistory, exerciseDays, exerciseMuscles, exerciseMinRepRec, exerciseMaxRepRec, exerciseType, exerciseDelta, exerciseCustom, loadExerciseList, loadExerciseDayList, loadExerciseMuscleList };

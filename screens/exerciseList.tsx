@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { loadDayName } from '../storage/days';
+import { loadMuscleName } from '../storage/muscles';
 import { loadExerciseName } from '../storage/exercises';
 import { getStyle, globalStyle } from '../utils/styles';
 import ListItem from '../components/listItem';
@@ -12,8 +13,9 @@ const ExerciseList: React.FC<screenProps> = (props: screenProps) => {
     const [exerciseList, setExerciseList] = useState<number[]>([]);
     useEffect(() => {
         props.disableBack!(false);
+        props.makeSwitchButton();
         (async () => {
-            if (props.getProps().day) {
+            if (props.getProps().day !== undefined) {
                 props.setHeaderRight(
                     <Button
                         title={'Settings'}
@@ -26,6 +28,19 @@ const ExerciseList: React.FC<screenProps> = (props: screenProps) => {
                     />
                 )
                 props.setTitle(await loadDayName(props.getProps().day!));
+            } else if (props.getProps().muscle !== undefined) {
+                props.setHeaderRight(
+                    <Button
+                        title={'Settings'}
+                        onPress={() => {
+                            props.newProps({
+                                muscle: props.getProps().muscle!,
+                            });
+                            props.newPage('MuscleSettings');
+                        }}
+                    />
+                )
+                props.setTitle(await loadMuscleName(props.getProps().muscle!));
             } else {
                 props.setHeaderRight(undefined);
                 props.setTitle('All exercises');

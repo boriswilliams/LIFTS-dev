@@ -1,5 +1,8 @@
+import { hashSet } from "../utils/_types";
+
 type navigatorProps = {
     day?: number;
+    muscle?: number;
     exercise?: number;
     loadExercises?: () => Promise<number[]>;
     saveNewExercise?: () => Promise<number>;
@@ -10,6 +13,8 @@ type navigatorProps = {
     data?: any;
     saveNewStack?: () => Promise<number>;
     stack?: number;
+    loadIncluded?: () => Promise<hashSet>;
+    updateMuscles?: (included: number[], excluded: number[], includedSet: hashSet) => Promise<void>;
 }
 
 type contextDetails = {

@@ -5,7 +5,7 @@ const loadBodyWeight = async (): Promise<number> => Number(await load(bodyWeight
 const saveBodyWeight = async (val: number): Promise<void> => await save(bodyWeight(), val);
 
 const theme = () => 'theme';
-const loadTheme = async (): Promise<string> => String(await load(theme(), 'dev'));
+const loadTheme = async (): Promise<string> => String(await load(theme(), 'light'));
 const saveTheme = async (val: string): Promise<void> => await save(theme(), val);
 
 export { loadBodyWeight, saveBodyWeight, loadTheme, saveTheme };

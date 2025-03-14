@@ -88,4 +88,13 @@ async function importData(s: string): Promise<boolean> {
     return true;
 }
 
-export { load, save, del, addToHashSet, removeFromHashSet, addToList, exportData, importData };
+async function loadList(loadHashSet: () => Promise<hashSet>): Promise<number[]> {
+    let items = await loadHashSet();
+    let res = [];
+    let item: string;
+    for (item in items)
+        res.push(Number(item));
+    return res
+}
+
+export { load, save, del, addToHashSet, removeFromHashSet, addToList, exportData, importData, loadList };

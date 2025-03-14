@@ -1,19 +1,19 @@
 import { useEffect, useState } from 'react';
 
-import { loadDayList, saveNewDay, loadDayName, loadDayExerciseList } from '../storage/days';
+import { loadMuscleList, saveNewMuscle, loadMuscleName, loadMuscleExerciseList } from '../storage/muscles';
 import { loadExerciseList, saveNewExercise } from '../storage/exercises';
-import { addDayExercise } from '../storage/dayExercises';
+import { addMuscleExercise } from '../storage/muscleExercises';
 import { getStyle, APP_NAME, globalStyle } from '../utils/styles';
 import ListItem from '../components/listItem';
 import Button from '../components/button';
 import List from '../components/list';
 import { screenProps } from './_types';
 
-const DayList: React.FC<screenProps> = (props: screenProps) => {
-    const [dayList, setDayList] = useState<number[]>([]);
+const MuscleList: React.FC<screenProps> = (props: screenProps) => {
+    const [muscleList, setMuscleList] = useState<number[]>([]);
     useEffect((): void => {
         props.disableBack!(false);
-        props.makeSwitchButton('Muscles', 'MuscleList');
+        props.makeSwitchButton('Workouts', 'DayList');
         props.setHeaderRight(
             <Button
                 title={'Profile'}
@@ -23,13 +23,13 @@ const DayList: React.FC<screenProps> = (props: screenProps) => {
                 }}
             />
         )
-        loadDayList().then((result: number[]): void => { setDayList(result) });
-        props.setTitle('Workouts');
+        loadMuscleList().then((result: number[]): void => { setMuscleList(result) });
+        props.setTitle('Muscles');
     }, []);
     return (
         <List
             style={[getStyle(), {flex: 1},]}
-            data={dayList}
+            data={muscleList}
             ListHeaderComponent={
                 <ListItem
                     text={"All exercises"}
@@ -45,14 +45,14 @@ const DayList: React.FC<screenProps> = (props: screenProps) => {
             renderItem={({index, item, style}) => {
                 return (
                     <ListItem
-                        getText={async (): Promise<string> => await loadDayName(item)}
+                        getText={async (): Promise<string> => await loadMuscleName(item)}
                         onPress={(): void => {
                             props.newProps({
-                                day: item,
-                                loadExercises: async (): Promise<number[]> => await loadDayExerciseList(item),
+                                muscle: item,
+                                loadExercises: async (): Promise<number[]> => await loadMuscleExerciseList(item),
                                 saveNewExercise: async (): Promise<number> => {
                                     return await saveNewExercise().then(async (exercise: number): Promise<number> => {
-                                        await addDayExercise(item, exercise)
+                                        await addMuscleExercise(item, exercise)
                                         return exercise;
                                     })
                                 },
@@ -67,15 +67,15 @@ const DayList: React.FC<screenProps> = (props: screenProps) => {
                 style.color = style.accent;
                 return (
                     <ListItem
-                        text={"New workout"}
+                        text={"New muscle"}
                         onPress={
                             async (): Promise<void> => {
-                                let newDay = await saveNewDay();
+                                let newMuscle = await saveNewMuscle();
                                 props.disableBack!(true);
                                 props.newProps({
-                                    day: newDay,
+                                    muscle: newMuscle,
                                 });
-                                props.newPage('DaySettings');
+                                props.newPage('MuscleSettings');
                             }
                         }
                         style={style}
@@ -87,4 +87,4 @@ const DayList: React.FC<screenProps> = (props: screenProps) => {
     );
 }
 
-export default DayList;
+export default MuscleList;
