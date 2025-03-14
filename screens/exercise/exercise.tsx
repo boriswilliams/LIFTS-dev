@@ -73,6 +73,7 @@ const Exercise: React.FC<screenProps> = (props: screenProps) => {
                         onPress={() => setTab(index)}
                         key={index}
                         selected={tab == index}
+                        style={{textAlign: 'center'}}
                     />
                 )}
             </View>
