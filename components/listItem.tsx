@@ -12,14 +12,22 @@ type listItemProps = {
     style?: {};
 }
 
+const BORDER_RADIUS = 5;
+
 const ListItem: React.FC<listItemProps> = (props: listItemProps) => {
     let style: globalStyle = getStyle();
     if (props.selected !== undefined) {
+        style.borderWidth = 1;
         if (props.selected) {
-            style.borderTopLeftRadius = 5;
-            style.borderTopRightRadius = 5;
+            style.borderTopLeftRadius = BORDER_RADIUS;
+            style.borderTopRightRadius = BORDER_RADIUS;
+            style.borderTopColor = style.accent;
+            style.borderLeftColor = style.accent;
+            style.borderRightColor = style.accent;
+            style.borderBottomColor = style.backgroundColor;
         } else {
             style.backgroundColor = style.backgroundDark;
+            style.borderBottomColor = style.accent;
         }
     }
     return (
