@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { getStyle, globalStyle } from '../utils/styles';
-import ListItem from '../components/listItem';
+import Item from '../components/item';
 import { hashSet } from '../utils/_types';
 import List from '../components/list';
 import { loadStacks, loadStackName, saveNewStack } from '../storage/stacks';
@@ -27,7 +27,7 @@ const StackList: React.FC<screenProps> = (props: screenProps) => {
             data={stackList}
             renderItem={({index, item, style}) => {
                 return (
-                    <ListItem
+                    <Item
                         getText={() => loadStackName(item)}
                         onPress={() => {
                             props.newProps({
@@ -42,7 +42,7 @@ const StackList: React.FC<screenProps> = (props: screenProps) => {
             ListFooterComponent={(style: globalStyle) => {
                 style.color = style.accent;
                 return (
-                    <ListItem text={"New stack"}
+                    <Item text={"New stack"}
                         onPress={async (): Promise<void> => {
                             let newStack = await saveNewStack();
                             props.disableBack!(true);

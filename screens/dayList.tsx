@@ -4,7 +4,7 @@ import { loadDayList, saveNewDay, loadDayName, loadDayExerciseList } from '../st
 import { loadExerciseList, saveNewExercise } from '../storage/exercises';
 import { addDayExercise } from '../storage/dayExercises';
 import { getStyle, APP_NAME, globalStyle } from '../utils/styles';
-import ListItem from '../components/listItem';
+import Item from '../components/item';
 import Button from '../components/button';
 import List from '../components/list';
 import { screenProps } from './_types';
@@ -31,7 +31,7 @@ const DayList: React.FC<screenProps> = (props: screenProps) => {
             style={[getStyle(), {flex: 1},]}
             data={dayList}
             ListHeaderComponent={
-                <ListItem
+                <Item
                     text={"All exercises"}
                     onPress={(): void => {
                         props.newProps({
@@ -44,7 +44,7 @@ const DayList: React.FC<screenProps> = (props: screenProps) => {
             }
             renderItem={({index, item, style}) => {
                 return (
-                    <ListItem
+                    <Item
                         getText={async (): Promise<string> => await loadDayName(item)}
                         onPress={(): void => {
                             props.newProps({
@@ -66,7 +66,7 @@ const DayList: React.FC<screenProps> = (props: screenProps) => {
             ListFooterComponent={(style: globalStyle) => {
                 style.color = style.accent;
                 return (
-                    <ListItem
+                    <Item
                         text={"New workout"}
                         onPress={
                             async (): Promise<void> => {

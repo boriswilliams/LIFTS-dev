@@ -2,7 +2,7 @@ import { ReactNode, useEffect, useState } from 'react';
 import { View } from 'react-native';
 
 import { hashSet } from '../utils/_types';
-import ListItem from './listItem';
+import Item from './item';
 import { getStyle } from '../utils/styles';
 import List from './/list';
 
@@ -76,10 +76,10 @@ const Includer: React.FC<includerProps> = (props: includerProps) => {
             <List
                 style={[getStyle(), {flex: 1},]}
                 data={included}
-                ListHeaderComponent={<ListItem text={'Included'}/>}
+                ListHeaderComponent={<Item text={'Included'}/>}
                 renderItem={({index, item, style}) => {
                     return (
-                        <ListItem
+                        <Item
                             getText={() => loadName(item)}
                             onPress={() => {
                                 move(index, included, setIncluded, excluded, setExcluded);
@@ -94,10 +94,10 @@ const Includer: React.FC<includerProps> = (props: includerProps) => {
             <List
                 style={[getStyle(), {flex: 1},]}
                 data={excluded}
-                ListHeaderComponent={<ListItem text={customExcludedTitle || 'Excluded'}/>}
+                ListHeaderComponent={<Item text={customExcludedTitle || 'Excluded'}/>}
                 renderItem={({index, item, style}) => {
                     return (
-                        <ListItem
+                        <Item
                             getText={() => loadName(item)}
                             onPress={() => {
                                 move(index, excluded, setExcluded, included, setIncluded);

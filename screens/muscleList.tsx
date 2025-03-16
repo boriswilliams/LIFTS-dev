@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react';
 import { loadMuscleList, saveNewMuscle, loadMuscleName, loadMuscleExerciseList } from '../storage/muscles';
 import { loadExerciseList, saveNewExercise } from '../storage/exercises';
 import { addMuscleExercise } from '../storage/muscleExercises';
-import { getStyle, APP_NAME, globalStyle } from '../utils/styles';
-import ListItem from '../components/listItem';
+import { getStyle, globalStyle } from '../utils/styles';
+import Item from '../components/item';
 import Button from '../components/button';
 import List from '../components/list';
 import { screenProps } from './_types';
@@ -31,7 +31,7 @@ const MuscleList: React.FC<screenProps> = (props: screenProps) => {
             style={[getStyle(), {flex: 1},]}
             data={muscleList}
             ListHeaderComponent={
-                <ListItem
+                <Item
                     text={"All exercises"}
                     onPress={(): void => {
                         props.newProps({
@@ -44,7 +44,7 @@ const MuscleList: React.FC<screenProps> = (props: screenProps) => {
             }
             renderItem={({index, item, style}) => {
                 return (
-                    <ListItem
+                    <Item
                         getText={async (): Promise<string> => await loadMuscleName(item)}
                         onPress={(): void => {
                             props.newProps({
@@ -66,7 +66,7 @@ const MuscleList: React.FC<screenProps> = (props: screenProps) => {
             ListFooterComponent={(style: globalStyle) => {
                 style.color = style.accent;
                 return (
-                    <ListItem
+                    <Item
                         text={"New muscle"}
                         onPress={
                             async (): Promise<void> => {
