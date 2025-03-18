@@ -13,7 +13,7 @@ type tabProps = {
     selected: number;
 }
 
-const BORDER_RADIUS = 5;
+const BORDER_RADIUS = 10;
 
 const Tab: React.FC<tabProps> = (props: tabProps) => {
     const border_width = BORDER_WIDTH / 2;
