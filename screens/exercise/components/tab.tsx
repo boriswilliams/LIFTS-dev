@@ -7,10 +7,10 @@ import { globalStyle, BORDER_WIDTH } from '../../../utils/styles';
 type tabProps = {
     text: string;
     onPress: () => void;
-    selected: boolean;
     style: {};
-    left: boolean;
-    right: boolean;
+    index: number;
+    length: number;
+    selected: number;
 }
 
 const BORDER_RADIUS = 5;
@@ -18,36 +18,37 @@ const BORDER_RADIUS = 5;
 const Tab: React.FC<tabProps> = (props: tabProps) => {
     const border_width = BORDER_WIDTH / 2;
     const style: globalStyle = getStyle();
-    const extraStyle: any = {
+    style.borderTopLeftRadius = BORDER_RADIUS;
+    style.borderTopRightRadius = BORDER_RADIUS;
+    const outerStyle: any = {
         borderColor: style.backgroundDark,
         borderTopWidth: border_width,
         borderBottomWidth: border_width,
     };
-    if (props.selected) {
-        extraStyle.borderTopLeftRadius = BORDER_RADIUS;
-        extraStyle.borderTopRightRadius = BORDER_RADIUS;
-        extraStyle.borderTopColor = style.accent;
-        if (!props.left) {
-            extraStyle.borderLeftWidth = border_width;
-            extraStyle.borderLeftColor = style.accent;
+    if (props.index == props.selected) {
+        outerStyle.borderTopColor = style.accent;
+        outerStyle.borderLeftColor = style.accent;
+        outerStyle.borderRightColor = style.accent;
+        outerStyle.borderBottomColor = style.backgroundColor;
+        if (props.index > 0) {
+            outerStyle.borderLeftWidth = border_width;
         }
-        if (!props.right) {
-            extraStyle.borderRightWidth = border_width;
-            extraStyle.borderRightColor = style.accent;
+        if (props.index < props.length-1) {
+            outerStyle.borderRightWidth = border_width;
         }
-        extraStyle.borderBottomColor = style.backgroundColor;
     } else {
-        extraStyle.backgroundColor = style.backgroundDark;
-        extraStyle.borderBottomColor = style.accent;
+        style.backgroundColor = style.backgroundMid;
+        outerStyle.borderTopColor = style.backgroundMid;
+        outerStyle.borderBottomColor = style.accent;
     }
     return (
         <Pressable
-            style={[{flex: 1}, style, extraStyle]}
+            style={[{flex: 1}, style, outerStyle]}
             onPress={props.onPress}
         >
             <Item
                 text={props.text}
-                style={[style, extraStyle, props.style]}
+                style={[style, props.style]}
             />
         </Pressable>
     )

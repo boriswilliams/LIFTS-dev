@@ -20,7 +20,7 @@ const DEFAULT_PADDING = 5;
 
 const APP_NAME = 'OVERLOAD';
 
-const BORDER_WIDTH = 2;
+const BORDER_WIDTH = 1;
 
 const styles = StyleSheet.create({
     listItemText: {
