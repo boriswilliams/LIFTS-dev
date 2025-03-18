@@ -9,7 +9,7 @@ import { getStyle, DEFAULT_PADDING } from '../utils/styles';
 import { loadExerciseList, loadExerciseName } from '../storage/exercises';
 import Button from '../components/button';
 import { screenProps } from './_types';
-import Includer from '../components/includer';
+import Includer, { getLists } from '../components/includer';
 
 async function updateMuscleExercises(muscle: number, included: number[], excluded: number[], includedSet: hashSet): Promise<void> {
     for (let item of excluded)
@@ -42,15 +42,15 @@ const MuscleSettings: React.FC<screenProps> = (props: screenProps) => {
             />
         )
         loadMuscleName(props.getProps().muscle!).then(result => {setName(result)});
+        const loadIncluded = async () => await loadMuscleExercises(props.getProps().muscle!);
+        const loadAll = loadExerciseList;
+        getLists(loadIncluded, loadAll, setIncludedSet, setIncluded, setExcluded);
     }, []);
     return (
-        <View style={{flex: 1}}>
+        <View style={[{flex: 1}, getStyle()]}>
             <TextInput style={[getStyle(), {padding: DEFAULT_PADDING}]} value={name} onChangeText={setName}/>
             <Includer
-                loadIncluded={async () => await loadMuscleExercises(props.getProps().muscle!)}
-                loadAll={loadExerciseList}
                 loadName={loadExerciseName}
-                setIncludedSet={setIncludedSet}
                 included={included}
                 setIncluded={setIncluded}
                 excluded={excluded}

@@ -61,7 +61,7 @@ const DaySettings: React.FC<screenProps> = (props: screenProps) => {
         });
     }, []);
     return (
-        <View style={{flex: 1}}>
+        <View style={[{flex: 1}, getStyle()]}>
             <TextInput style={[getStyle(), {padding: DEFAULT_PADDING}]} value={name} onChangeText={setName}/>
             <Button
                 title={'Select muscles'}
