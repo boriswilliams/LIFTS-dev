@@ -3,8 +3,9 @@ import { View, TextInput, Text } from 'react-native';
 
 import Button from '../components/button';
 import { getStyle, DEFAULT_PADDING } from '../utils/styles';
-import { deleteStack, loadStackData, loadStackName, saveStackData, saveStackName } from '../storage/stacks';
+import { loadStackData, loadStackName, saveStackData, saveStackName } from '../storage/stacks';
 import { screenProps } from './_types';
+import { deleteStack } from '../storage/stackExercises';
 
 const Stack: React.FC<screenProps> = (props: screenProps) => {
     const [name, setName] = useState<string>('');
@@ -22,12 +23,16 @@ const Stack: React.FC<screenProps> = (props: screenProps) => {
                         backDistance: 2,
                         action: 'delete',
                     });
+                    props.disableBack!(props.getProps().backDisabled!);
                     props.newPage('Confirm');
                 }}
             />
         )
         loadStackData(props.getProps().stack!).then(data => { setData(String(data)); });
-        loadStackName(props.getProps().stack!).then(result => { setName(result); });
+        loadStackName(props.getProps().stack!).then(name => {
+            props.setTitle(name);
+            setName(name);
+        });
     }, []);
     return (
         <View style={[getStyle(), {flex: 1}]}>
@@ -41,7 +46,7 @@ const Stack: React.FC<screenProps> = (props: screenProps) => {
                     let isValid = array.every((item) => !isNaN(Number(item.trim())));
                     if (isValid) {
                         for (let i = 1; i < array.length; i++) {
-                            if (array[i-1] >= array[i]) {
+                            if (Number(array[i-1]) >= Number(array[i])) {
                                 isValid = false;
                                 break;
                             }
@@ -50,6 +55,7 @@ const Stack: React.FC<screenProps> = (props: screenProps) => {
                     if (isValid) {
                         await saveStackName(props.getProps().stack!, name);
                         await saveStackData(props.getProps().stack!, JSON.parse(`[${data}]`));
+                        props.disableBack!(props.getProps().backDisabled!);
                         props.goBack();
                     } else {
                         console.error('Bad array input.');

@@ -5,7 +5,7 @@ import Row from '../../../components/row';
 import List from '../../../components/list';
 import { pageProps } from '../_types';
 import { loadExerciseDelta, loadExerciseHistory } from '../../../storage/exercises';
-import { calcWeight, displayWeight, MAX_REPS, round, roundWeightDown } from '../_helpers';
+import { calcWeight, displayWeight, MAX_REPS, round, roundWeightDown, higherWeight } from '../_helpers';
 
 const RepList: React.FC<pageProps> = (props: pageProps) => {
     const [data, setData] = useState<string[][]>([]);
@@ -25,7 +25,8 @@ const RepList: React.FC<pageProps> = (props: pageProps) => {
                 weight = Math.max(weight, maxes[reps] || 0);
                 est = calcWeight(oneRM, 1, reps);
                 rec = await roundWeightDown(props.exercise, est);
-                if (rec == weight) rec += delta;
+                if (rec <= weight)
+                    rec = await higherWeight(props.exercise, est, delta);
                 data.unshift([String(reps), String(round(weight)), await displayWeight(props.exercise, est), await displayWeight(props.exercise, rec)]);
             }
             setData(data);

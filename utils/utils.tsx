@@ -33,6 +33,8 @@ function isNumber(s: string): boolean {
 
 const ACCURACY = 1000;
 
-const round = (value: number, accuracy: number = ACCURACY): number => Math.round(accuracy*value)/accuracy;
+function round(value: number, accuracy: number = ACCURACY): number {
+    return Math.round(accuracy*value)/accuracy;
+}
 
 export { hashSetAdd, hashSetRemove, hashSetToggle, titleCase, isNumber, round };

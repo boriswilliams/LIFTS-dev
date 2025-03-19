@@ -22,7 +22,7 @@ const Item: React.FC<itemProps> = (props: itemProps) => {
         <Pressable
             style={[{flex: 1}, style]}
             onPress={props.onPress}
-            disabled={props.onPress == undefined}
+            disabled={props.onPress === undefined}
         >
             <Text style={[style, {flex: 1}, styles.listItemText, {paddingLeft: 5}]}>{text}</Text>
         </Pressable>

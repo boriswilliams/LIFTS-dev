@@ -2,7 +2,8 @@ import { hashSet } from '../utils/_types';
 import { del, removeFromHashSet } from './_helpers';
 import { loadDayMuscles, saveDayMuscles, loadDayExercises, saveDayExercises, loadDays, saveDays, dayName, dayExercises, dayMuscles } from './days';
 import { loadMuscleDays, saveMuscleDays, loadMuscleExercises, saveMuscleExercises, loadMuscles, saveMuscles, muscleName, muscleExercises, muscleDays } from './muscles';
-import { loadExerciseDays, saveExerciseDays, loadExerciseMuscles, saveExerciseMuscles, loadExercises, saveExercises, exerciseName, exerciseHistory, exerciseDays, exerciseMuscles, exerciseDelta, exerciseMinRepRec, exerciseMaxRepRec, exerciseType } from './exercises';
+import { loadExerciseDays, saveExerciseDays, loadExerciseMuscles, saveExerciseMuscles, loadExercises, saveExercises, exerciseName, exerciseHistory, exerciseDays, exerciseMuscles, exerciseDelta, exerciseMinRepRec, exerciseMaxRepRec, exerciseType, loadExerciseStack, exerciseStack, exerciseMaxWeight } from './exercises';
+import { loadStackExercises, saveStackExercises } from './stacks';
 
 const deleteExercise = async (key: number): Promise<void> => {
     await del(exerciseName(key));
@@ -11,6 +12,7 @@ const deleteExercise = async (key: number): Promise<void> => {
     await del(exerciseMinRepRec(key));
     await del(exerciseMaxRepRec(key));
     await del(exerciseType(key));
+    await del(exerciseMaxWeight(key));
     
     let day: string;
     for (day in await loadExerciseDays(key))
@@ -29,6 +31,14 @@ const deleteExercise = async (key: number): Promise<void> => {
             async (val: hashSet) => await saveMuscleExercises(Number(muscle), val)
         );
     await del(exerciseMuscles(key));
+    
+    let stack = await loadExerciseStack(key);
+    await removeFromHashSet(
+        key,
+        async (): Promise<hashSet> => await loadStackExercises(Number(stack)),
+        async (val: hashSet) => await saveStackExercises(Number(stack), val)
+    );
+    await del(exerciseStack(key));
 
     await removeFromHashSet(key, loadExercises, saveExercises);
 }

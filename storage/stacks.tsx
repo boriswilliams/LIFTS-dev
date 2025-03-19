@@ -1,4 +1,4 @@
-import { load, save, addToHashSet, del, removeFromHashSet } from './_helpers';
+import { load, save, addToHashSet, loadList } from './_helpers';
 import { hashSet } from '../utils/_types';
 
 const stacks = (): string => 'stacks';
@@ -7,7 +7,7 @@ const saveStacks = async (val: hashSet): Promise<void> => await save(stacks(), v
 
 const loadNextStackIndex = async (): Promise<number> => {
     let key = 'nextStackIndex';
-    let val = await load(key, 1);
+    let val = await load(key, 0);
     await save(key, val+1);
     return val
 }
@@ -35,10 +35,12 @@ const stackData = (key: number): string => `stack_${key}_data`;
 const loadStackData = async (key: number): Promise<number[]> => await load(stackData(key), []);
 const saveStackData = async (key: number, val: number[]): Promise<void> => await save(stackData(key), val);
 
-const deleteStack = async (key: number): Promise<void> => {
-    await del(stackName(key));
-    await del (stackData(key));
-    await removeFromHashSet(key, loadStacks, saveStacks)
+const stackExercises = (key: number): string => `stack_${key}_exercises`;
+const loadStackExercises = async (key: number): Promise<hashSet> => await load(stackExercises(key), {});
+const saveStackExercises = async (key: number, val: hashSet): Promise<void> => await save(stackExercises(key), val);
+
+const loadStackExerciseList = async (key: number): Promise<number[]> => {
+    return loadList(async () => await loadStackExercises(key));
 }
 
-export { loadStacks, loadStackList, saveNewStack, loadStackName, saveStackName, loadStackData, saveStackData, saveStacks, stackName, stackData, deleteStack };
+export { loadStacks, loadStackList, saveNewStack, loadStackName, saveStackName, loadStackData, saveStackData, saveStacks, stackName, stackData, stackExercises, loadStackExercises, saveStackExercises, loadStackExerciseList };

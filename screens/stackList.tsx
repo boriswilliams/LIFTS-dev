@@ -11,6 +11,7 @@ const StackList: React.FC<screenProps> = (props: screenProps) => {
     const [stackList, setStackList] = useState<number[]>([]);
     useEffect(() => {
         props.makeSwitchButton();
+        props.setTitle('Stacks');
         props.setHeaderRight(undefined);
         props.disableBack!(false);
         loadStacks().then((result: hashSet) => {

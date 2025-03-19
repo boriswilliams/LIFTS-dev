@@ -15,6 +15,7 @@ type navigatorProps = {
     stack?: number;
     loadIncluded?: () => Promise<hashSet>;
     updateMuscles?: (included: number[], excluded: number[], includedSet: hashSet) => Promise<void>;
+    backDisabled?: boolean;
 }
 
 type contextDetails = {

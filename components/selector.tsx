@@ -11,19 +11,20 @@ type selectorProps = {
 }
 
 const Selector: React.FC<selectorProps> = (props: selectorProps) => {
+    const style = getStyle();
     return (
-        <View style={[getStyle(), {width: '100%'}]}>
+        <View style={[style, {width: '100%'}]}>
             {props.data.map((item, index) => {
                 return (
                     <Pressable
-                        style={[getStyle(), {flexDirection: 'row', alignItems: 'center', paddingLeft: DEFAULT_PADDING}]}
+                        style={[style, {flexDirection: 'row', alignItems: 'center', paddingLeft: DEFAULT_PADDING}]}
                         key={index}
                         onPress={() => { props.setSelected(index); }}
                     >
                         <Checkbox
                             value={index==props.selected}
                         />
-                        <Text style={[getStyle(), {padding: DEFAULT_PADDING}]}>{titleCase(item)}</Text>
+                        <Text style={[style, {padding: DEFAULT_PADDING}]}>{titleCase(item)}</Text>
                     </Pressable>
                 );
             })}

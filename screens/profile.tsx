@@ -15,6 +15,7 @@ const Profile: React.FC<screenProps> = (props: screenProps) => {
     let context = useContext(globalContext)
     useEffect(() => {
         props.makeSwitchButton();
+        props.setTitle('Profile');
         props.setHeaderRight(undefined);
         loadBodyWeight().then(result => { setBodyweight(String(result)) });
         setStyle(STYLES.indexOf(context.state.theme));

@@ -37,12 +37,7 @@ const loadExerciseDays = async (key: number): Promise<hashSet> => await load(exe
 const saveExerciseDays = async (key: number, val: hashSet): Promise<void> => await save(exerciseDays(key), val);
 
 const loadExerciseDayList = async (key: number): Promise<number[]> => {
-    let days = await loadExerciseDays(key);
-    let res = [];
-    let day: string;
-    for (day in days)
-        res.push(Number(day));
-    return res;
+    return loadList(async () => await loadExerciseDays(key));
 }
 
 const exerciseMuscles = (key: number): string => `exercise_${key}_muscles`;
@@ -50,12 +45,7 @@ const loadExerciseMuscles = async (key: number): Promise<hashSet> => await load(
 const saveExerciseMuscles = async (key: number, val: hashSet): Promise<void> => await save(exerciseMuscles(key), val);
 
 const loadExerciseMuscleList = async (key: number): Promise<number[]> => {
-    let muscles = await loadExerciseMuscles(key);
-    let res = [];
-    let muscle: string;
-    for (muscle in muscles)
-        res.push(Number(muscle));
-    return res;
+    return loadList(async () => await loadExerciseMuscles(key));
 }
 
 const exerciseMinRepRec = (key: number): string => `exercise_${key}_minRepRec`;
@@ -76,16 +66,20 @@ const exerciseDelta = (key: number): string => `exercise_${key}_delta`;
 const loadExerciseDelta = async (key: number): Promise<number> => await load(exerciseDelta(key), 1);
 const saveExerciseDelta = async (key: number, val: number): Promise<void> => await save(exerciseDelta(key), val);
 
-const exerciseCustom = (key: number): string => `exercise_${key}_custom`;
-const loadExerciseCustom = async (key: number): Promise<number[]> => await load(exerciseCustom(key), []);
-const saveExerciseCustom = async (key: number, val: number[]): Promise<void> => await save(exerciseCustom(key), val);
-
 const exerciseBodyAssisted = (key: number): string => `exercise_${key}_body_assisted`;
 const loadExerciseBodyAssisted = async (key: number): Promise<boolean> => await load(exerciseBodyAssisted(key), false);
 const saveExerciseBodyAssisted = async (key: number, val: boolean): Promise<void> => await save(exerciseBodyAssisted(key), val);
+
+const exerciseStack = (key: number): string => `exercise_${key}_stack`;
+const loadExerciseStack = async (key: number): Promise<number> => await load(exerciseStack(key), -1);
+const saveExerciseStack = async (key: number, val: number): Promise<void> => await save(exerciseStack(key), val);
+
+const exerciseMaxWeight = (key: number): string => `exercise_${key}_max_weight`;
+const loadExerciseMaxWeight = async (key: number): Promise<number> => await load(exerciseMaxWeight(key), 100);
+const saveExerciseMaxWeight = async (key: number, val: number): Promise<void> => await save(exerciseMaxWeight(key), val);
 
 const loadExerciseWeights = async (key: number): Promise<any> => {
     return 0
 }
 
-export { loadExercises, saveExercises, saveNewExercise, loadExerciseName, saveExerciseName, loadExerciseHistory, saveExerciseHistory, appendExerciseHistory, loadExerciseDays, saveExerciseDays, loadExerciseMuscles, saveExerciseMuscles, loadExerciseMinRepRec, saveExerciseMinRepRec, loadExerciseMaxRepRec, saveExerciseMaxRepRec, loadExerciseType, saveExerciseType, loadExerciseDelta, saveExerciseDelta, loadExerciseCustom, saveExerciseCustom, loadExerciseWeights, TYPES, exerciseName, exerciseHistory, exerciseDays, exerciseMuscles, exerciseMinRepRec, exerciseMaxRepRec, exerciseType, exerciseDelta, exerciseCustom, loadExerciseList, loadExerciseDayList, loadExerciseMuscleList, loadExerciseBodyAssisted, saveExerciseBodyAssisted };
+export { loadExercises, saveExercises, saveNewExercise, loadExerciseName, saveExerciseName, loadExerciseHistory, saveExerciseHistory, appendExerciseHistory, loadExerciseDays, saveExerciseDays, loadExerciseMuscles, saveExerciseMuscles, loadExerciseMinRepRec, saveExerciseMinRepRec, loadExerciseMaxRepRec, saveExerciseMaxRepRec, loadExerciseType, saveExerciseType, loadExerciseDelta, saveExerciseDelta, loadExerciseWeights, TYPES, exerciseName, exerciseHistory, exerciseDays, exerciseMuscles, exerciseMinRepRec, exerciseMaxRepRec, exerciseType, exerciseDelta, loadExerciseList, loadExerciseDayList, loadExerciseMuscleList, loadExerciseBodyAssisted, saveExerciseBodyAssisted, exerciseStack, loadExerciseStack, saveExerciseStack, exerciseMaxWeight, loadExerciseMaxWeight, saveExerciseMaxWeight };
