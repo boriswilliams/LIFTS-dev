@@ -64,7 +64,7 @@ const Exercise: React.FC<screenProps> = (props: screenProps) => {
     backGroundStyle.backgroundColor = backGroundStyle.backgroundDark;
     return (
         <View
-            style={[getStyle(), {flex: 1},]}
+            style={[getStyle(), {height: '100%'}]}
         >
             <View style={[backGroundStyle, {flexDirection: 'row'}]}>
                 {tabs.map((_, index) =>
@@ -72,7 +72,6 @@ const Exercise: React.FC<screenProps> = (props: screenProps) => {
                         text={names[index]}
                         onPress={() => setTab(index)}
                         key={index}
-                        style={{textAlign: 'center'}}
                         index={index}
                         length={tabs.length}
                         selected={tab}

@@ -1,13 +1,11 @@
-import { Pressable } from 'react-native';
+import { Pressable, Text } from 'react-native';
 
 import { getStyle } from '../../../utils/styles';
-import Item from '../../../components/item';
-import { globalStyle, BORDER_WIDTH } from '../../../utils/styles';
+import styles, { globalStyle, BORDER_WIDTH } from '../../../utils/styles';
 
 type tabProps = {
     text: string;
     onPress: () => void;
-    style: {};
     index: number;
     length: number;
     selected: number;
@@ -46,10 +44,7 @@ const Tab: React.FC<tabProps> = (props: tabProps) => {
             style={[{flex: 1}, style, outerStyle]}
             onPress={props.onPress}
         >
-            <Item
-                text={props.text}
-                style={[style, props.style]}
-            />
+            <Text style={[style, {textAlign: 'center'}, styles.listItemText]}>{props.text}</Text>
         </Pressable>
     )
 }

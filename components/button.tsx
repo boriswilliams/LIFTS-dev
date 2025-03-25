@@ -16,7 +16,7 @@ const Button: React.FC<buttonProps> = (props: buttonProps) => {
     style.backgroundColor = undefined;
     return (
         <TouchableOpacity style={[style, styles.buttonStyle]} onPress={props.onPress}>
-            <Text style={[style, props.bold && {fontSize: TEXT_SIZE*1.5}, {textAlign: 'center'}]}>{props.title}</Text>
+            <Text style={[style, props.bold && {fontSize: TEXT_SIZE*1.5, textAlign: 'center'}]}>{props.title}</Text>
         </TouchableOpacity>
     )
 }
