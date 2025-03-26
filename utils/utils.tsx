@@ -1,5 +1,7 @@
 import { hashSet } from './_types';
 
+const DEV = true;
+
 function hashSetAdd(val: any, set: hashSet): void {
     set[val] = 0;
 }
@@ -37,4 +39,4 @@ function round(value: number, accuracy: number = ACCURACY): number {
     return Math.round(accuracy*value)/accuracy;
 }
 
-export { hashSetAdd, hashSetRemove, hashSetToggle, titleCase, isNumber, round };
+export { DEV, hashSetAdd, hashSetRemove, hashSetToggle, titleCase, isNumber, round };

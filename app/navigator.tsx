@@ -19,6 +19,7 @@ import MuscleList from '../screens/muscleList';
 import MuscleSettings from '../screens/muscleSettings';
 import MuscleSelect from '../screens/muscleSelect';
 import Button from '../components/button';
+import { DEV } from '../utils/utils';
 
 const Navigator: React.FC = () => {
     const [title, setTitle] = useState(APP_NAME);
@@ -46,7 +47,7 @@ const Navigator: React.FC = () => {
     }, []);
     return (
         <ContextProvider>
-            <SafeAreaView style={{width: '100%', height: '100%', marginTop:StatusBar.currentHeight}}>
+            <SafeAreaView style={[{width: '100%', height: '100%'}, DEV && {marginTop:StatusBar.currentHeight}]}>
                 <NavigationBar title={title} page={page} headerRight={headerRight} goBack={goBack} backDisabled={backDisabled} headerLeft={headerLeft}/>
                 <View
                     style={[getStyle(), {flex: 1}]}
