@@ -97,4 +97,21 @@ async function loadList(loadHashSet: () => Promise<hashSet>): Promise<number[]> 
     return res
 }
 
-export { load, save, del, addToHashSet, removeFromHashSet, addToList, exportData, importData, loadList };
+const INITIAL_DATA = '{"test": 0}';
+
+async function loadInitialData(): Promise<void> {
+    await importData(INITIAL_DATA);
+}
+
+async function checkLoadInitialData(): Promise<void> {
+    try {
+        const keys = await AsyncStorage.getAllKeys();
+        console.log(keys.length);
+        if (keys.length == 0)
+            loadInitialData();
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+export { load, save, del, addToHashSet, removeFromHashSet, addToList, exportData, importData, loadList, checkLoadInitialData };
